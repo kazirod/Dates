@@ -18,7 +18,7 @@
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "1.10"
+    VERSION: "1.11"
   };
 </script>
 
@@ -597,7 +597,7 @@ body[data-screen="place"]{
   padding-bottom:calc(172px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
 }
 body[data-screen="picks"]{
-  padding-bottom:calc(var(--tabbar-h) + 76px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
+  padding-bottom:calc(164px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
 }
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 img{display:block}
@@ -791,12 +791,17 @@ body.no-tg .backchip{display:inline-flex}
   mask-image:linear-gradient(180deg, transparent 0%, #000 60%);
 }
 .actionbar .btn{position:relative;z-index:1}
-/* На экране «Места» контейнер поднят над таб-баром */
-.actionbar--above{bottom:calc(var(--tabbar-h) - 12px);padding-bottom:6px}
+/* На экране «Места» заливка доходит до низа экрана, а кнопка поднята
+   над плавающим таб-баром — иначе они бы наложились друг на друга. */
+.actionbar--above{
+  padding-bottom:calc(72px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
+}
 
 /* ---------- таб-бар ---------- */
 .tabbar{
-  position:fixed;z-index:50;left:50%;transform:translateX(-50%);
+  /* Выше плавающего контейнера (z-index 55): его заливка доходит до низа
+     экрана и иначе перекрыла бы таб-бар */
+  position:fixed;z-index:60;left:50%;transform:translateX(-50%);
   bottom:calc(14px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
   display:flex;align-items:center;gap:6px;padding:6px;
   background:var(--surface);border:1px solid var(--hairline);border-radius:100px;
@@ -823,6 +828,8 @@ body.no-tg .backchip{display:inline-flex}
   box-shadow:0 0 0 2px var(--surface);
 }
 .tabbar__i[aria-selected="true"] .badge{box-shadow:0 0 0 2px var(--bg)}
+/* Счётчик выступает за иконку вправо — отодвигаем подпись, чтобы не наезжал */
+#tabPicks[aria-selected="true"] .tabbar__lbl{margin-left:9px}
 /* ₽₽₽ — без letter-spacing перекладины рублей сливаются в одну линию */
 .rub{letter-spacing:.14em}
 .hidden{display:none !important}
@@ -1251,19 +1258,13 @@ body.no-tg .backchip{display:inline-flex}
 
   function syncMainButton(){
     const show = screen === 'picks' && !incoming && picks.size > 0;
-    if (tg && tg.MainButton){
-      if (show){
-        tg.MainButton.setText('Отправить партнёру · ' + picks.size);
-        tg.MainButton.show();
-      } else tg.MainButton.hide();
-      return;
-    }
+    /* Системная кнопка не должна появляться ни при каких условиях */
+    if (tg && tg.MainButton) { try { tg.MainButton.hide(); } catch(e){} }
     if (fallbackBtn){
       fallbackBtn.textContent = 'Отправить партнёру · ' + picks.size;
       fallbackBar.style.display = show ? 'flex' : 'none';
     }
   }
-  if (tg && tg.MainButton) tg.onEvent('mainButtonClicked', share);
 
   /* ---------- навигация ---------- */
   const tabHome = document.getElementById('tabHome');
@@ -1308,9 +1309,12 @@ body.no-tg .backchip{display:inline-flex}
   tabPicks.addEventListener('click', () => { haptic(); openId = null; go('picks'); });
 
   /* fallback-кнопка отправки, если MainButton недоступна (обычный браузер) */
+  /* Кнопка отправки — своя на всех платформах. Системную MainButton не
+     используем: она рисуется клиентом за пределами webview, берёт цвет
+     из темы Telegram и выбивается из остальных экранов. */
   let fallbackBtn = null, fallbackBar = null;
-  if (!tg || !tg.MainButton){
-    document.body.classList.add('no-tg');
+  {
+    if (!tg) document.body.classList.add('no-tg');
     fallbackBar = document.createElement('div');
     fallbackBar.className = 'actionbar actionbar--above';
     fallbackBar.style.display = 'none';
