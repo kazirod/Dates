@@ -18,7 +18,7 @@
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "1.9"
+    VERSION: "1.10"
   };
 </script>
 
@@ -592,6 +592,13 @@ body{
   padding-top:var(--safe-top);
   padding-bottom:calc(var(--tabbar-h) + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
 }
+/* Запас под плавающий контейнер, чтобы он не накрывал последний блок */
+body[data-screen="place"]{
+  padding-bottom:calc(172px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
+}
+body[data-screen="picks"]{
+  padding-bottom:calc(var(--tabbar-h) + 76px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
+}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 img{display:block}
 
@@ -610,6 +617,9 @@ img{display:block}
 }
 .greet__ava img{width:100%;height:100%;object-fit:cover}
 .rule{height:1px;background:var(--sep);margin:0 var(--pad)}
+/* На странице места приветствие ни к чему — это карточка заведения */
+body[data-screen="place"] .greet,
+body[data-screen="place"] .rule{display:none}
 
 /* ---------- слайдер ---------- */
 .slider{
@@ -731,31 +741,27 @@ img{display:block}
 .banner__t{font-size:16px;font-weight:600;margin-bottom:2px}
 .banner__s{font-size:14px;color:var(--text-2)}
 
-/* ---------- шторка места ---------- */
-.sheet-bg{
-  position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.4);
-  opacity:0;pointer-events:none;transition:opacity .28s ease;
+/* ---------- страница места ---------- */
+.place__media{height:212px;margin:10px var(--pad) 0;border-radius:var(--r-lg)}
+.place__body{padding:18px var(--pad) 0}
+.place__kind{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-2)}
+.place__title{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:6px 0 6px;line-height:1.15}
+.place__tagline{font-size:16px;color:var(--text-2);margin-bottom:18px}
+/* Кнопка «назад» нужна только вне Telegram — там свою рисует клиент */
+.backchip{
+  display:none;align-items:center;gap:6px;margin:10px 0 0 var(--pad);
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:100px;padding:8px 14px 8px 11px;font-size:15px;
 }
-.sheet-bg.on{opacity:1;pointer-events:auto}
-.sheet{
-  position:fixed;left:0;right:0;bottom:0;z-index:61;max-height:92vh;overflow-y:auto;
-  background:var(--bg);border-radius:24px 24px 0 0;
-  transform:translateY(101%);transition:transform .34s cubic-bezier(.32,.72,0,1);
-  padding-bottom:calc(28px + env(safe-area-inset-bottom,0px));
-}
-.sheet.on{transform:translateY(0)}
-.sheet__grab{width:38px;height:5px;border-radius:3px;background:var(--sep);margin:9px auto 0}
-.sheet__media{height:196px;margin:14px var(--pad) 0;border-radius:var(--r-lg)}
-.sheet__body{padding:18px var(--pad) 0}
-.sheet__kind{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-2)}
-.sheet__title{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:6px 0 6px;line-height:1.15}
-.sheet__tagline{font-size:16px;color:var(--text-2);margin-bottom:18px}
+.backchip svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body.no-tg .backchip{display:inline-flex}
+
 .facts{display:flex;flex-direction:column;gap:0;background:var(--surface);border-radius:var(--r-sm);padding:2px 14px;margin-bottom:16px}
 .fact{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--sep);font-size:15px}
 .fact:last-child{border-bottom:0}
 .fact__k{color:var(--text-2);flex:none;width:96px}
 .fact__v{flex:1}
-.sheet__desc{font-size:15px;line-height:1.5;margin-bottom:16px}
+.place__desc{font-size:15px;line-height:1.5;margin-bottom:16px}
 .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
 .tagrow span{background:var(--surface);border-radius:100px;padding:7px 13px;font-size:14px;color:var(--text-2)}
 .btn{
@@ -764,7 +770,29 @@ img{display:block}
 }
 .btn:active{opacity:.7}
 .btn--on{background:var(--accent);color:#fff}
-.btn--ghost{background:var(--surface);color:var(--text);margin-top:10px}
+.btn--ghost{background:var(--surface);color:var(--text)}
+
+/* ---------- плавающий контейнер с кнопками ----------
+   Границы у него нет. Вместо неё слой, который снизу вверх растворяется:
+   и заливка цветом фона, и размытие гаснут по одному и тому же градиенту,
+   поэтому край не читается как линия. Маска нужна, чтобы blur тоже
+   исчезал — без неё было бы видно чёткую кромку размытия. */
+.actionbar{
+  position:fixed;left:0;right:0;z-index:55;
+  bottom:0;
+  padding:30px var(--pad) calc(14px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
+  display:flex;flex-direction:column;gap:9px;
+}
+.actionbar__fade{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg, transparent 0%, var(--bg) 60%);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 60%);
+  mask-image:linear-gradient(180deg, transparent 0%, #000 60%);
+}
+.actionbar .btn{position:relative;z-index:1}
+/* На экране «Места» контейнер поднят над таб-баром */
+.actionbar--above{bottom:calc(var(--tabbar-h) - 12px);padding-bottom:6px}
 
 /* ---------- таб-бар ---------- */
 .tabbar{
@@ -824,12 +852,19 @@ img{display:block}
 </main>
 
 <!-- ШТОРКА -->
-<div class="sheet-bg" id="sheetBg"></div>
-<section class="sheet" id="sheet" role="dialog" aria-modal="true">
-  <div class="sheet__grab"></div>
-  <div class="sheet__media" id="sheetMedia"></div>
-  <div class="sheet__body" id="sheetBody"></div>
-</section>
+<!-- ЭКРАН МЕСТА -->
+<main id="screen-place" class="hidden">
+  <button class="backchip" id="placeBack">
+    <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg><span>Назад</span>
+  </button>
+  <div class="place__media" id="placeMedia"></div>
+  <div class="place__body" id="placeBody"></div>
+  <div class="actionbar" id="placeActions">
+    <div class="actionbar__fade" aria-hidden="true"></div>
+    <button class="btn" id="placePick"></button>
+    <button class="btn btn--ghost" id="placeMap">Открыть на карте</button>
+  </div>
+</main>
 
 <nav class="tabbar">
   <button class="tabbar__i" id="tabHome" aria-selected="true" aria-label="Главная">
@@ -843,6 +878,7 @@ img{display:block}
       <svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 1 1 19.4 13z"/></svg>
       <i class="badge hidden" id="picksBadge">0</i>
     </span>
+    <span class="tabbar__lbl">Места</span>
   </button>
 </nav>
 
@@ -1028,7 +1064,7 @@ img{display:block}
             '<span class="slide__cta">Открыть</span>' +
           '</div>' +
         '</div>';
-      s.addEventListener('click', () => openSheet(p.id));
+      s.addEventListener('click', () => openPlace(p.id));
       box.appendChild(s);
     });
   }
@@ -1065,7 +1101,7 @@ img{display:block}
       '</div>';
     c.addEventListener('click', e => {
       if (e.target.closest('.heart')) return;
-      openSheet(p.id);
+      openPlace(p.id);
     });
     const h = c.querySelector('.heart');
     if (h) h.addEventListener('click', e => { e.stopPropagation(); toggle(p.id); });
@@ -1137,58 +1173,54 @@ img{display:block}
     badge.textContent = picks.size;
     badge.classList.toggle('hidden', picks.size === 0 || !!incoming);
     syncMainButton();
-    const sheetBtn = document.getElementById('sheetPick');
-    if (sheetBtn && openId){
+    const placeBtn = document.getElementById('placePick');
+    if (placeBtn && openId){
       const on = picks.has(openId);
-      sheetBtn.textContent = on ? 'В списке — убрать' : 'Хочу сюда';
-      sheetBtn.classList.toggle('btn--on', on);
+      placeBtn.textContent = on ? 'В списке — убрать' : 'Хочу сюда';
+      placeBtn.classList.toggle('btn--on', on);
     }
   }
 
-  /* ---------- шторка ---------- */
+  /* ---------- экран места ----------
+     Раньше это была шторка поверх документа: жест скролла уходил
+     на страницу под ней, и листалась она, а не карточка. Теперь это
+     обычный экран — скроллится сам документ, проблема уходит вместе
+     с конструкцией. */
   let openId = null;
-  const sheet = document.getElementById('sheet');
-  const sheetBg = document.getElementById('sheetBg');
 
-  function openSheet(id){
+  function openPlace(id){
     const p = PLACES.find(x => x.id === id);
     if (!p) return;
     openId = id;
-    document.getElementById('sheetMedia').style.background = bg(p);
-    document.getElementById('sheetBody').innerHTML =
-      '<div class="sheet__kind">' + catLabel(p.category) + '</div>' +
-      '<h2 class="sheet__title">' + p.title + '</h2>' +
-      '<div class="sheet__tagline">' + p.tagline + '</div>' +
+
+    document.getElementById('placeMedia').style.background = bg(p);
+    document.getElementById('placeBody').innerHTML =
+      '<div class="place__kind">' + catLabel(p.category) + '</div>' +
+      '<h2 class="place__title">' + p.title + '</h2>' +
+      '<div class="place__tagline">' + p.tagline + '</div>' +
       '<div class="facts">' +
         '<div class="fact"><span class="fact__k">Адрес</span><span class="fact__v">' + p.address + '</span></div>' +
         '<div class="fact"><span class="fact__k">Район</span><span class="fact__v">' + p.area + '</span></div>' +
         '<div class="fact"><span class="fact__k">Чек</span><span class="fact__v">' + rub(p.price) + '</span></div>' +
         '<div class="fact"><span class="fact__k">Сколько</span><span class="fact__v">' + p.duration + '</span></div>' +
       '</div>' +
-      '<p class="sheet__desc">' + p.description + '</p>' +
-      '<div class="tagrow">' + p.tags.map(t => '<span>' + t + '</span>').join('') + '</div>' +
-      '<button class="btn" id="sheetPick"></button>' +
-      '<button class="btn btn--ghost" id="sheetMap">Открыть на карте</button>';
+      '<p class="place__desc">' + p.description + '</p>' +
+      '<div class="tagrow">' + p.tags.map(t => '<span>' + t + '</span>').join('') + '</div>';
 
-    document.getElementById('sheetPick').addEventListener('click', () => toggle(openId));
-    document.getElementById('sheetMap').addEventListener('click', () => {
-      const url = mapUrl(p);
-      if (tg && tg.openLink) tg.openLink(url); else window.open(url,'_blank');
-    });
-
-    sheet.classList.add('on'); sheetBg.classList.add('on');
-    if (tg && tg.BackButton){ tg.BackButton.show(); }
+    go('place');
     syncUI();
   }
 
-  function closeSheet(){
-    sheet.classList.remove('on'); sheetBg.classList.remove('on');
-    openId = null;
-    if (tg && tg.BackButton) tg.BackButton.hide();
-    syncMainButton();
-  }
-  sheetBg.addEventListener('click', closeSheet);
-  if (tg && tg.BackButton) tg.onEvent('backButtonClicked', closeSheet);
+  document.getElementById('placePick').addEventListener('click', () => {
+    if (openId) toggle(openId);
+  });
+  document.getElementById('placeMap').addEventListener('click', () => {
+    const p = PLACES.find(x => x.id === openId);
+    if (!p) return;
+    const url = mapUrl(p);
+    if (tg && tg.openLink) tg.openLink(url); else window.open(url,'_blank');
+  });
+  document.getElementById('placeBack').addEventListener('click', goBack);
 
   /* ---------- отправка партнёру ---------- */
   /* Telegram ограничивает start_param 512 символами — режем список, если не влезает */
@@ -1218,7 +1250,7 @@ img{display:block}
   }
 
   function syncMainButton(){
-    const show = screen === 'picks' && !incoming && picks.size > 0 && !openId;
+    const show = screen === 'picks' && !incoming && picks.size > 0;
     if (tg && tg.MainButton){
       if (show){
         tg.MainButton.setText('Отправить партнёру · ' + picks.size);
@@ -1228,7 +1260,7 @@ img{display:block}
     }
     if (fallbackBtn){
       fallbackBtn.textContent = 'Отправить партнёру · ' + picks.size;
-      fallbackBtn.style.display = show ? 'block' : 'none';
+      fallbackBar.style.display = show ? 'flex' : 'none';
     }
   }
   if (tg && tg.MainButton) tg.onEvent('mainButtonClicked', share);
@@ -1236,31 +1268,60 @@ img{display:block}
   /* ---------- навигация ---------- */
   const tabHome = document.getElementById('tabHome');
   const tabPicks = document.getElementById('tabPicks');
-  function go(s){
-    screen = s;
-    document.getElementById('screen-home').classList.toggle('hidden', s !== 'home');
-    document.getElementById('screen-picks').classList.toggle('hidden', s !== 'picks');
-    tabHome.setAttribute('aria-selected', s === 'home');
-    tabPicks.setAttribute('aria-selected', s === 'picks');
-    if (s === 'picks') renderPicks();
-    window.scrollTo(0,0);
+  const tabbar = document.querySelector('.tabbar');
+  let backTo = 'home';        // куда вернуться с экрана места
+  const scrollMemo = {};      // позиция списка, чтобы не терять место
+
+  function go(next){
+    if (next === 'place' && screen !== 'place') {
+      backTo = screen;
+      scrollMemo[screen] = window.scrollY;
+    }
+    screen = next;
+    document.body.dataset.screen = next;
+    document.getElementById('screen-home').classList.toggle('hidden', next !== 'home');
+    document.getElementById('screen-picks').classList.toggle('hidden', next !== 'picks');
+    document.getElementById('screen-place').classList.toggle('hidden', next !== 'place');
+    tabbar.classList.toggle('hidden', next === 'place');
+    tabHome.setAttribute('aria-selected', next === 'home');
+    tabPicks.setAttribute('aria-selected', next === 'picks');
+    if (next === 'picks') renderPicks();
+
+    /* Кнопка «назад»: своя в браузере, системная в Telegram */
+    if (tg && tg.BackButton) {
+      if (next === 'place') tg.BackButton.show(); else tg.BackButton.hide();
+    }
+
+    window.scrollTo(0, next === 'place' ? 0 : (scrollMemo[next] || 0));
     syncMainButton();
   }
-  tabHome.addEventListener('click', () => { haptic(); go('home'); });
-  tabPicks.addEventListener('click', () => { haptic(); go('picks'); });
+
+  function goBack(){
+    if (screen !== 'place') return;
+    haptic();
+    openId = null;
+    go(backTo);
+  }
+  if (tg && tg.BackButton) tg.onEvent('backButtonClicked', goBack);
+
+  tabHome.addEventListener('click', () => { haptic(); openId = null; go('home'); });
+  tabPicks.addEventListener('click', () => { haptic(); openId = null; go('picks'); });
 
   /* fallback-кнопка отправки, если MainButton недоступна (обычный браузер) */
-  let fallbackBtn = null;
+  let fallbackBtn = null, fallbackBar = null;
   if (!tg || !tg.MainButton){
+    document.body.classList.add('no-tg');
+    fallbackBar = document.createElement('div');
+    fallbackBar.className = 'actionbar actionbar--above';
+    fallbackBar.style.display = 'none';
+    fallbackBar.innerHTML = '<div class="actionbar__fade" aria-hidden="true"></div>';
     fallbackBtn = document.createElement('button');
     fallbackBtn.className = 'btn';
     fallbackBtn.id = 'fallbackShare';
-    fallbackBtn.style.cssText =
-      'position:fixed;left:20px;right:20px;bottom:104px;z-index:45;width:auto;display:none;' +
-      'box-shadow:0 8px 28px rgba(0,0,0,.2)';
     fallbackBtn.textContent = 'Отправить партнёру';
     fallbackBtn.addEventListener('click', share);
-    document.body.appendChild(fallbackBtn);
+    fallbackBar.appendChild(fallbackBtn);
+    document.body.appendChild(fallbackBar);
   }
 
   /* ---------- старт ---------- */
