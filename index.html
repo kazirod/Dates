@@ -18,7 +18,7 @@
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "1.7"
+    VERSION: "1.8"
   };
 </script>
 
@@ -535,6 +535,13 @@
 :root{
   --bg:          var(--tg-theme-bg-color, #ffffff);
   --bg-elev:     var(--tg-theme-secondary-bg-color, #f2f2f7);
+  /* Подложка карточек. В тёмной теме Telegram отдаёт secondary_bg_color
+     почти равным основному фону, и карточка сливается со страницей —
+     поэтому считаем её сами подмешиванием цвета текста в фон.
+     Первая строка — запасной вариант для старых webview без color-mix. */
+  --surface:     #f2f2f7;
+  --surface:     color-mix(in srgb, var(--text) 5%, var(--bg));
+  --hairline:    rgba(60,60,67,.10);
   --text:        var(--tg-theme-text-color, #000000);
   --text-2:      var(--tg-theme-hint-color, #8e8e93);
   --sep:         rgba(60,60,67,.18);
@@ -558,6 +565,9 @@
     --text-2:  var(--tg-theme-hint-color, #8e8e93);
     --sep:     rgba(235,235,245,.20);
     --ink:     #2c2c2e;
+    --surface: #1c1c1e;
+    --surface: color-mix(in srgb, var(--text) 9%, var(--bg));
+    --hairline: rgba(255,255,255,.08);
   }
 }
 :root[data-theme="dark"]{
@@ -567,6 +577,9 @@
   --text-2:  var(--tg-theme-hint-color, #8e8e93);
   --sep:     rgba(235,235,245,.20);
   --ink:     #2c2c2e;
+  --surface: #1c1c1e;
+  --surface: color-mix(in srgb, var(--text) 9%, var(--bg));
+  --hairline: rgba(255,255,255,.08);
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -653,7 +666,7 @@ img{display:block}
 }
 .filters::-webkit-scrollbar{display:none}
 .chip-all{
-  flex:none;background:var(--bg-elev);border-radius:100px;
+  flex:none;background:var(--surface);border-radius:100px;
   padding:7px 15px;font-size:15px;color:var(--text-2);white-space:nowrap;
 }
 .chip-all[aria-selected="true"]{background:var(--text);color:var(--bg);font-weight:600}
@@ -672,7 +685,8 @@ img{display:block}
 /* ---------- список ---------- */
 .list{padding:2px var(--pad) 24px;display:flex;flex-direction:column;gap:12px}
 .card{
-  background:var(--bg-elev);border-radius:var(--r-md);overflow:hidden;
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--r-md);overflow:hidden;
   text-align:left;width:100%;display:block;
   transition:transform .18s cubic-bezier(.3,.8,.4,1);
 }
@@ -709,7 +723,8 @@ img{display:block}
 
 /* ---------- баннер «она выбрала» ---------- */
 .banner{
-  margin:20px var(--pad) 18px;background:var(--bg-elev);border-radius:var(--r-md);
+  margin:20px var(--pad) 18px;background:var(--surface);
+  border:1px solid var(--hairline);border-radius:var(--r-md);
   padding:16px 18px;display:flex;gap:12px;align-items:center;
 }
 .banner__dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
@@ -735,28 +750,28 @@ img{display:block}
 .sheet__kind{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-2)}
 .sheet__title{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:6px 0 6px;line-height:1.15}
 .sheet__tagline{font-size:16px;color:var(--text-2);margin-bottom:18px}
-.facts{display:flex;flex-direction:column;gap:0;background:var(--bg-elev);border-radius:var(--r-sm);padding:2px 14px;margin-bottom:16px}
+.facts{display:flex;flex-direction:column;gap:0;background:var(--surface);border-radius:var(--r-sm);padding:2px 14px;margin-bottom:16px}
 .fact{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--sep);font-size:15px}
 .fact:last-child{border-bottom:0}
 .fact__k{color:var(--text-2);flex:none;width:96px}
 .fact__v{flex:1}
 .sheet__desc{font-size:15px;line-height:1.5;margin-bottom:16px}
 .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.tagrow span{background:var(--bg-elev);border-radius:100px;padding:7px 13px;font-size:14px;color:var(--text-2)}
+.tagrow span{background:var(--surface);border-radius:100px;padding:7px 13px;font-size:14px;color:var(--text-2)}
 .btn{
   width:100%;border-radius:var(--r-sm);padding:15px;font-size:16px;font-weight:600;
   background:var(--text);color:var(--bg);transition:opacity .15s;
 }
 .btn:active{opacity:.7}
 .btn--on{background:var(--accent);color:#fff}
-.btn--ghost{background:var(--bg-elev);color:var(--text);margin-top:10px}
+.btn--ghost{background:var(--surface);color:var(--text);margin-top:10px}
 
 /* ---------- таб-бар ---------- */
 .tabbar{
   position:fixed;z-index:50;left:50%;transform:translateX(-50%);
   bottom:calc(14px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
   display:flex;align-items:center;gap:6px;padding:6px;
-  background:var(--bg-elev);border-radius:100px;
+  background:var(--surface);border:1px solid var(--hairline);border-radius:100px;
   box-shadow:0 8px 28px rgba(0,0,0,.16);
   backdrop-filter:blur(18px);
 }
