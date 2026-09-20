@@ -11,9 +11,14 @@
      ========================================================== -->
 <script>
   const CONFIG = {
-    // Ссылка на твой мини-апп: https://t.me/kudaa_poidem_bot/dates
-    APP_LINK: "https://t.me/your_bot/dates",
-    APP_NAME: "Куда пойдём"
+    // Ссылка на мини-апп. Менять не нужно — она уже боевая.
+    APP_LINK: "https://t.me/kudaa_poidem_bot/dates",
+    APP_NAME: "Куда пойдём",
+
+    // Увеличивай на единицу при каждой правке. Номер виден в самом низу
+    // главной — так сразу понятно, доехало обновление или Telegram
+    // показывает старую версию из кеша.
+    VERSION: "1.1"
   };
 </script>
 
@@ -25,145 +30,458 @@
 <script id="places-data" type="application/json">
 {
   "categories": [
-    { "id": "resto",    "label": "Рестораны" },
-    { "id": "cafe",     "label": "Кафе и бары" },
-    { "id": "active",   "label": "Активный" },
-    { "id": "passive",  "label": "Пассивный" },
-    { "id": "relax",    "label": "Релакс" },
-    { "id": "creative", "label": "Творчество" }
+    {
+      "id": "resto",
+      "label": "Рестораны"
+    },
+    {
+      "id": "cafe",
+      "label": "Кафе и бары"
+    },
+    {
+      "id": "active",
+      "label": "Активный"
+    },
+    {
+      "id": "passive",
+      "label": "Пассивный"
+    },
+    {
+      "id": "relax",
+      "label": "Релакс"
+    },
+    {
+      "id": "creative",
+      "label": "Творчество"
+    }
   ],
   "places": [
-    { "id": "resto-360", "title": "Ресторан «360»", "category": "resto", "top": true,
-      "area": "Москва-Сити", "address": "Пресненская наб., 12, 89-й этаж", "price": "₽₽₽₽", "duration": "2–3 часа",
+    {
+      "id": "mosca",
+      "title": "Mosca",
+      "category": "resto",
+      "top": true,
+      "photo": "https://avatars.mds.yandex.net/get-altay/15017195/2a000001955817f763d32c493a68b1ec651b/XXL_height",
+      "area": "Новые Черёмушки",
+      "address": "Профсоюзная ул., 64/66, ТЦ «Дирижабль», 2 этаж",
+      "price": "₽₽",
+      "duration": "2 часа",
+      "tagline": "Итальянская кухня на Профсоюзной",
+      "description": "Ресторан итальянской кухни в ТЦ «Дирижабль», второй этаж. Рядом с метро «Новые Черёмушки» — удобно, если не хочется ехать в центр.",
+      "tags": ["итальянская кухня", "рядом с метро", "юго-запад"]
+    },
+    {
+      "id": "the-byk",
+      "title": "The Бык",
+      "category": "resto",
+      "top": true,
+      "photo": "https://avatars.mds.yandex.net/get-altay/15289836/2a000001960fc317f38d426103c1c987b30e/L_height",
+      "area": "Новые Черёмушки",
+      "address": "Профсоюзная ул., 64/66, ТЦ «Дирижабль», 3 этаж",
+      "price": "₽₽",
+      "duration": "2 часа",
+      "tagline": "Демократичный мясной ресторан",
+      "description": "Демократичный стейк-хаус в том же «Дирижабле», этажом выше Mosca. Самый бюджетный вариант из ресторанов в подборке.",
+      "tags": ["мясо", "недорого", "рядом с метро"]
+    },
+    {
+      "id": "il-matto",
+      "title": "IL Matto",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/13461681/2a000001931b5c0b5a8c5faad6c31fcb51b0/L_height",
+      "area": "Большая Дмитровка",
+      "address": "Большая Дмитровка, 9, стр. 1",
+      "price": "₽₽₽",
+      "duration": "2–3 часа",
+      "tagline": "Меню как путешествие по Италии",
+      "description": "Итальянский ресторан, где меню будто проводит по всем уголкам Италии. В интерьере мрамор, панели из корня тополя, бархат и карты таро на стенах, а на втором этаже прячется лобби-бар с леопардовыми креслами.",
+      "tags": ["итальянская кухня", "лобби-бар", "интерьер"]
+    },
+    {
+      "id": "oltremare",
+      "title": "Oltremare",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/11187599/2a0000018c3fc8769f466dcbf807d57f930a/L_height",
+      "area": "Саввинская набережная",
+      "address": "Саввинская наб., 13",
+      "price": "₽₽₽₽",
+      "duration": "2–3 часа",
+      "tagline": "Морская кухня у воды",
+      "description": "Ресторан Lucky Group на Саввинской набережной: паста с морепродуктами, высокие потолки, люстра-водопад и большие окна на реку.",
+      "tags": ["морепродукты", "у воды", "особый повод"]
+    },
+    {
+      "id": "salone",
+      "title": "Salone pasta&bar",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/15405132/2a000001961727db65c5e3aa1f0727ab08e1/M_height",
+      "area": "Малая Дмитровка",
+      "address": "Малая Дмитровка, 18А, стр. 3",
+      "price": "₽₽₽",
+      "duration": "2 часа",
+      "tagline": "Паста-бар с домашней подачей",
+      "description": "Белые скатерти, венские стулья, тёплые лампы и паста как главный герой меню. Камерно и без пафоса — хорошо для разговора.",
+      "tags": ["паста", "уютно", "вино"]
+    },
+    {
+      "id": "self-edge",
+      "title": "Self Edge Japanese",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-tycoon/15224430/2a0000019483ead74c92aca57329d59bc763/priority-headline-background",
+      "area": "Большая Грузинская",
+      "address": "Большая Грузинская ул., 76, стр. 2",
+      "price": "₽₽₽₽",
+      "duration": "2–3 часа",
+      "tagline": "Омакасе и суши у стойки",
+      "description": "Японский ресторан с омакасе: шеф сам решает, что подать. Винил на стенах, бар в центре зала. На Яндекс.Картах карточка заведения подписана как Dreamteam — это тот же адрес.",
+      "tags": ["японская кухня", "омакасе", "бар"]
+    },
+    {
+      "id": "copen-57",
+      "title": "Copen 57",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/20192526/2a0000019f7f9597b3bea783330ed7ffee34/L_height",
+      "area": "Патриаршие",
+      "address": "Малый Козихинский пер., 10, стр. 1",
+      "price": "₽₽₽",
+      "duration": "2 часа",
+      "tagline": "Маленькая Дания на Патриарших",
+      "description": "Датская кухня и скандинавский минимализм: светлые стены, полотенца вместо декора, стол у окна на двоих. Работает до полуночи.",
+      "tags": ["скандинавская кухня", "камерно", "Патриаршие"]
+    },
+    {
+      "id": "bruno",
+      "title": "Bruno",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/14090612/2a00000195858d0ded0dca4513ed577bf462/L_height",
+      "area": "Неглинная",
+      "address": "Неглинная ул., 14, стр. 1А",
+      "price": "₽₽₽₽",
+      "duration": "2–3 часа",
+      "tagline": "Фирменное блюдо — говядина веллингтон",
+      "description": "Ресторан Lucky Group на Неглинной: тёмное дерево, белые скатерти, зеркала. Главное блюдо — говядина веллингтон.",
+      "tags": ["fine dining", "особый повод", "центр"]
+    },
+    {
+      "id": "lui",
+      "title": "Lui",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/13668123/2a00000196ef341f00ea929bd24b4d9b178c/L_height",
+      "area": "Берсеневская набережная",
+      "address": "Берсеневская наб., 16, стр. 9",
+      "price": "₽₽₽₽",
+      "duration": "3 часа",
+      "tagline": "Итальянская кухня на «Красном Октябре»",
+      "description": "Итальянская кухня на «Красном Октябре»: расписные стены, приглушённый свет, посуда с синим узором. Сюда идут на повод.",
+      "tags": ["итальянская кухня", "дорого", "особый повод"]
+    },
+    {
+      "id": "eva",
+      "title": "Eva",
+      "category": "resto",
+      "top": false,
+      "photo": "https://avatars.mds.yandex.net/get-altay/10834132/2a0000018e133c415211fe3628e84a89c518/L_height",
+      "area": "Хамовники",
+      "address": "1-й переулок Тружеников, 4",
+      "price": "₽₽₽",
+      "duration": "2 часа",
+      "tagline": "Греческая кухня в Хамовниках",
+      "description": "Светлый зал, клетчатые скатерти, большие окна. Греческая кухня, есть кофе и десерты — подойдёт и для дневного свидания.",
+      "tags": ["греческая кухня", "светло", "днём"]
+    },
+    {
+      "id": "resto-360",
+      "title": "Ресторан «360»",
+      "category": "resto",
+      "top": true,
+      "area": "Москва-Сити",
+      "address": "Пресненская наб., 12, 89-й этаж",
+      "price": "₽₽₽₽",
+      "duration": "2–3 часа",
       "tagline": "Ужин на высоте 327 метров",
       "description": "Панорамный ресторан на 89-м этаже башни «Федерация». Круговой вид на всю Москву, европейская кухня, можно заранее попросить украсить стол. При бронировании нужен депозит.",
-      "tags": ["вид на город", "особый повод", "бронь обязательна"] },
-
-    { "id": "svet", "title": "SVET", "category": "creative", "top": true,
-      "area": "Хитровка", "address": "Подкопаевский пер., 4А", "price": "₽₽₽₽", "duration": "3 часа",
+      "tags": ["вид на город", "особый повод", "бронь обязательна"]
+    },
+    {
+      "id": "svet",
+      "title": "SVET",
+      "category": "creative",
+      "top": true,
+      "area": "Хитровка",
+      "address": "Подкопаевский пер., 4А",
+      "price": "₽₽₽₽",
+      "duration": "3 часа",
       "tagline": "Гастрономический иммерсивный театр",
       "description": "Спектакль и ужин одновременно: проекции, живой вокал, свет — и 6–7 блюд, каждое встроено в сценарий вечера.",
-      "tags": ["необычное", "спектакль", "вау-эффект"] },
-
-    { "id": "pashkov", "title": "Ночь в Доме Пашкова", "category": "passive", "top": true,
-      "area": "Центр", "address": "ул. Воздвиженка, 3/5, стр. 1", "price": "3 500 ₽", "duration": "2 часа",
+      "tags": ["необычное", "спектакль", "вау-эффект"]
+    },
+    {
+      "id": "pashkov",
+      "title": "Ночь в Доме Пашкова",
+      "category": "passive",
+      "top": true,
+      "area": "Центр",
+      "address": "ул. Воздвиженка, 3/5, стр. 1",
+      "price": "₽₽₽",
+      "duration": "2 часа",
       "tagline": "Пустая библиотека после закрытия",
       "description": "Прогулка по Российской государственной библиотеке вечером, когда посетителей уже нет: читальные залы, подземные тоннели, вид на Кремль. Сеансы 20:00–22:00.",
-      "tags": ["экскурсия", "атмосферно", "вечер"] },
-
-    { "id": "planetarium", "title": "Московский планетарий", "category": "passive", "top": true,
-      "area": "Пресня", "address": "Садовая-Кудринская, 5, стр. 1", "price": "₽₽", "duration": "2 часа",
+      "tags": ["экскурсия", "атмосферно", "вечер"]
+    },
+    {
+      "id": "planetarium",
+      "title": "Московский планетарий",
+      "category": "passive",
+      "top": false,
+      "area": "Пресня",
+      "address": "Садовая-Кудринская, 5, стр. 1",
+      "price": "₽₽",
+      "duration": "2 часа",
       "tagline": "Звёздное небо под куполом",
       "description": "Большой звёздный зал, интерактивный «Лунариум» и вечерние романтические программы. Можно заказать персональное шоу.",
-      "tags": ["романтично", "в любую погоду", "космос"] },
-
-    { "id": "radisson", "title": "Речная прогулка Radisson", "category": "passive", "top": true,
-      "area": "Наб. Тараса Шевченко", "address": "Наб. Тараса Шевченко, причал", "price": "от 2 100 ₽", "duration": "2,5 часа",
+      "tags": ["романтично", "в любую погоду", "космос"]
+    },
+    {
+      "id": "radisson",
+      "title": "Речная прогулка Radisson",
+      "category": "passive",
+      "top": false,
+      "area": "Наб. Тараса Шевченко",
+      "address": "Наб. Тараса Шевченко, причал",
+      "price": "₽₽",
+      "duration": "2,5 часа",
       "tagline": "Москва-река с воды",
       "description": "Прогулка на яхте-ледоколе круглый год. Есть рейсы с джазом и театральной программой, панорамное остекление, ужин на борту.",
-      "tags": ["круглый год", "вид на город", "ужин"] },
-
-    { "id": "big-easy", "title": "Big Easy", "category": "cafe", "top": false,
-      "area": "Пятницкая", "address": "Пятницкая, 16, стр. 1", "price": "₽₽₽", "duration": "2–3 часа",
+      "tags": ["круглый год", "вид на город", "ужин"]
+    },
+    {
+      "id": "big-easy",
+      "title": "Big Easy",
+      "category": "cafe",
+      "top": false,
+      "area": "Пятницкая",
+      "address": "Пятницкая, 16, стр. 1",
+      "price": "₽₽₽",
+      "duration": "2–3 часа",
       "tagline": "Новоорлеанский джаз каждый вечер",
-      "description": "Джазовый бар с креольской кухней. Живая музыка каждый вечер, коктейли около 900 ₽, блюда 700–1 000 ₽.",
-      "tags": ["живая музыка", "бар", "вечер"] },
-
-    { "id": "cherny", "title": "Кооператив «Чёрный»", "category": "cafe", "top": false,
-      "area": "Лялин переулок", "address": "Лялин пер., 5, стр. 1", "price": "₽", "duration": "1 час",
+      "description": "Джазовый бар с креольской кухней. Живая музыка каждый вечер.",
+      "tags": ["живая музыка", "бар", "вечер"]
+    },
+    {
+      "id": "cherny",
+      "title": "Кооператив «Чёрный»",
+      "category": "cafe",
+      "top": false,
+      "area": "Лялин переулок",
+      "address": "Лялин пер., 5, стр. 1",
+      "price": "₽",
+      "duration": "1 час",
       "tagline": "Бесплатные каппинги по средам",
       "description": "Спешелти-кофейня с еженедельными дегустациями: пробуете несколько сортов вслепую и обсуждаете. Хорошо для первого, необязывающего свидания.",
-      "tags": ["кофе", "недорого", "разговоры"] },
-
-    { "id": "padron", "title": "Padron", "category": "resto", "top": false,
-      "area": "Страстной бульвар", "address": "Страстной бульвар, 7, стр. 1", "price": "₽₽₽", "duration": "2 часа",
+      "tags": ["кофе", "недорого", "разговоры"]
+    },
+    {
+      "id": "padron",
+      "title": "Padron",
+      "category": "resto",
+      "top": false,
+      "area": "Страстной бульвар",
+      "address": "Страстной бульвар, 7, стр. 1",
+      "price": "₽₽₽",
+      "duration": "2 часа",
       "tagline": "Испанская кухня и винная карта",
       "description": "Тапас, паэлья и большой выбор вина по бокалам. Тёплый свет, негромко — удобно разговаривать.",
-      "tags": ["вино", "уютно", "ужин"] },
-
-    { "id": "maya", "title": "Maya", "category": "resto", "top": false,
-      "area": "Большая Никитская", "address": "Большая Никитская, 24/1, стр. 6", "price": "₽₽₽", "duration": "2 часа",
+      "tags": ["вино", "уютно", "ужин"]
+    },
+    {
+      "id": "maya",
+      "title": "Maya",
+      "category": "resto",
+      "top": false,
+      "area": "Большая Никитская",
+      "address": "Большая Никитская, 24/1, стр. 6",
+      "price": "₽₽₽",
+      "duration": "2 часа",
       "tagline": "Перуанская кухня",
       "description": "Севиче, тирадито и писко-сауэр в интерьере из натуральных материалов. Необычная кухня — есть о чём поговорить.",
-      "tags": ["необычная кухня", "коктейли"] },
-
-    { "id": "original", "title": "«Оригинал»", "category": "resto", "top": false,
-      "area": "Земляной Вал", "address": "Земляной Вал, 9а", "price": "₽₽₽", "duration": "3 часа",
+      "tags": ["необычная кухня", "коктейли"]
+    },
+    {
+      "id": "original",
+      "title": "«Оригинал»",
+      "category": "resto",
+      "top": false,
+      "area": "Земляной Вал",
+      "address": "Земляной Вал, 9а",
+      "price": "₽₽₽",
+      "duration": "3 часа",
       "tagline": "Лофт в бывшем депо с танцполом",
       "description": "Большие пространства, паста и пицца, ближе к ночи — диджей и танцпол. Подходит, если вечер хочется продолжить.",
-      "tags": ["танцы", "лофт", "поздний вечер"] },
-
-    { "id": "zaryadye", "title": "Парк «Зарядье»", "category": "passive", "top": false,
-      "area": "Китай-город", "address": "ул. Варварка, 6, стр. 1", "price": "бесплатно", "duration": "1,5–2 часа",
+      "tags": ["танцы", "лофт", "поздний вечер"]
+    },
+    {
+      "id": "zaryadye",
+      "title": "Парк «Зарядье»",
+      "category": "passive",
+      "top": false,
+      "area": "Китай-город",
+      "address": "ул. Варварка, 6, стр. 1",
+      "price": "бесплатно",
+      "duration": "1,5–2 часа",
       "tagline": "Парящий мост и четыре климата",
       "description": "Прогулка по зонам с разной растительностью, Парящий мост над рекой, Ледяная пещера и медиацентр. Вход в парк бесплатный.",
-      "tags": ["бесплатно", "прогулка", "центр"] },
-
-    { "id": "aptekarsky", "title": "Аптекарский огород", "category": "passive", "top": false,
-      "area": "Проспект Мира", "address": "Проспект Мира, 26, стр. 1", "price": "₽", "duration": "1,5 часа",
+      "tags": ["бесплатно", "прогулка", "центр"]
+    },
+    {
+      "id": "aptekarsky",
+      "title": "Аптекарский огород",
+      "category": "passive",
+      "top": false,
+      "area": "Проспект Мира",
+      "address": "Проспект Мира, 26, стр. 1",
+      "price": "₽",
+      "duration": "1,5 часа",
       "tagline": "Оранжереи круглый год",
       "description": "Старейший ботанический сад Москвы: пальмовая оранжерея, суккуленты, пруд с черепахами, сезонные выставки. Работает и зимой.",
-      "tags": ["тепло зимой", "недорого", "фото"] },
-
-    { "id": "canatka", "title": "Московская канатная дорога", "category": "active", "top": false,
-      "area": "Воробьёвы горы", "address": "ул. Косыгина, 28, стр. 1", "price": "₽₽", "duration": "1 час",
+      "tags": ["тепло зимой", "недорого", "фото"]
+    },
+    {
+      "id": "canatka",
+      "title": "Московская канатная дорога",
+      "category": "active",
+      "top": false,
+      "area": "Воробьёвы горы",
+      "address": "ул. Косыгина, 28, стр. 1",
+      "price": "₽₽",
+      "duration": "1 час",
       "tagline": "Полёт над Москвой-рекой",
       "description": "Кабинка от Воробьёвых гор до «Лужников», есть прозрачные. Хорошо совмещается с прогулкой по смотровой.",
-      "tags": ["вид на город", "быстро", "фото"] },
-
-    { "id": "karting", "title": "MIX-Картинг", "category": "active", "top": false,
-      "area": "Шарикоподшипниковская", "address": "Шарикоподшипниковская, 13, стр. 89", "price": "₽₽", "duration": "1,5 часа",
+      "tags": ["вид на город", "быстро", "фото"]
+    },
+    {
+      "id": "karting",
+      "title": "MIX-Картинг",
+      "category": "active",
+      "top": false,
+      "area": "Шарикоподшипниковская",
+      "address": "Шарикоподшипниковская, 13, стр. 89",
+      "price": "₽₽",
+      "duration": "1,5 часа",
       "tagline": "Свидание на адреналине",
       "description": "Крытые трассы для новичков и опытных, на площадке же VR-зона. Вариант, если сидеть за столом весь вечер не хочется.",
-      "tags": ["адреналин", "соревнование", "в помещении"] },
-
-    { "id": "biliard", "title": "Дом русского бильярда", "category": "active", "top": false,
-      "area": "Вятская", "address": "ул. Вятская, 41а", "price": "1 500–2 300 ₽/час", "duration": "2 часа",
+      "tags": ["адреналин", "соревнование", "в помещении"]
+    },
+    {
+      "id": "biliard",
+      "title": "Дом русского бильярда",
+      "category": "active",
+      "top": false,
+      "area": "Вятская",
+      "address": "ул. Вятская, 41а",
+      "price": "₽₽₽",
+      "duration": "2 часа",
       "tagline": "Партия в здании Мельникова",
       "description": "Бильярдный клуб в историческом здании архитектора Мельникова: высокие своды, свой ресторан. В пт–вс депозит.",
-      "tags": ["игра", "красивый интерьер"] },
-
-    { "id": "gremm", "title": "Спа-комплекс Gremm", "category": "relax", "top": false,
-      "area": "Варшавское шоссе", "address": "Варшавское ш., 150б", "price": "от 2 400 ₽", "duration": "3–4 часа",
+      "tags": ["игра", "красивый интерьер"]
+    },
+    {
+      "id": "gremm",
+      "title": "Спа-комплекс Gremm",
+      "category": "relax",
+      "top": false,
+      "area": "Варшавское шоссе",
+      "address": "Варшавское ш., 150б",
+      "price": "₽₽₽",
+      "duration": "3–4 часа",
       "tagline": "9 парных, бассейны и хаммам",
       "description": "Большой банный комплекс: парные разных температур, бассейны, джакузи, хаммам и рестораны на территории. Скорее не для первого свидания.",
-      "tags": ["спа", "на весь вечер", "тепло"] },
-
-    { "id": "organ", "title": "Органный вечер в соборе", "category": "relax", "top": false,
-      "area": "Малая Грузинская", "address": "Малая Грузинская, 27/13, стр. 1", "price": "₽₽", "duration": "1,5 часа",
+      "tags": ["спа", "на весь вечер", "тепло"]
+    },
+    {
+      "id": "organ",
+      "title": "Органный вечер в соборе",
+      "category": "relax",
+      "top": false,
+      "area": "Малая Грузинская",
+      "address": "Малая Грузинская, 27/13, стр. 1",
+      "price": "₽₽",
+      "duration": "1,5 часа",
       "tagline": "Орган в готическом соборе",
       "description": "Кафедральный собор Непорочного Зачатия — единственная неоготика в Москве. Еженедельные органные вечера и тематические программы.",
-      "tags": ["музыка", "тихо", "атмосферно"] },
-
-    { "id": "ges2", "title": "Дом культуры «ГЭС-2»", "category": "passive", "top": false,
-      "area": "Болотная набережная", "address": "Болотная наб., 15", "price": "бесплатно / ₽", "duration": "2 часа",
+      "tags": ["музыка", "тихо", "атмосферно"]
+    },
+    {
+      "id": "ges2",
+      "title": "Дом культуры «ГЭС-2»",
+      "category": "passive",
+      "top": false,
+      "area": "Болотная набережная",
+      "address": "Болотная наб., 15",
+      "price": "бесплатно",
+      "duration": "2 часа",
       "tagline": "Искусство на бывшей электростанции",
       "description": "Выставки, кино, концерты и мастер-классы в здании Ренцо Пьяно. Много бесплатных программ, рядом Берёзовая роща и набережная.",
-      "tags": ["искусство", "бесплатно", "центр"] },
-
-    { "id": "goncharka", "title": "Мастерская «Жюль и Верн»", "category": "creative", "top": false,
-      "area": "Певческий переулок", "address": "Певческий пер., 4, стр. 1", "price": "₽₽", "duration": "1,5 часа",
+      "tags": ["искусство", "бесплатно", "центр"]
+    },
+    {
+      "id": "goncharka",
+      "title": "Мастерская «Жюль и Верн»",
+      "category": "creative",
+      "top": false,
+      "area": "Певческий переулок",
+      "address": "Певческий пер., 4, стр. 1",
+      "price": "₽₽",
+      "duration": "1,5 часа",
       "tagline": "Слепить посуду в четыре руки",
       "description": "Занятие с инструктором за гончарным кругом: работаете вдвоём над одним изделием. Готовую вещь забираете после обжига.",
-      "tags": ["руками", "фото", "сближает"] },
-
-    { "id": "uu-studio", "title": "Студия автопортрета UU", "category": "creative", "top": false,
-      "area": "Бауманская", "address": "2-я Бауманская, 9/23, стр. 3", "price": "₽₽", "duration": "1 час",
+      "tags": ["руками", "фото", "сближает"]
+    },
+    {
+      "id": "uu-studio",
+      "title": "Студия автопортрета UU",
+      "category": "creative",
+      "top": false,
+      "area": "Бауманская",
+      "address": "2-я Бауманская, 9/23, стр. 3",
+      "price": "₽₽",
+      "duration": "1 час",
       "tagline": "Только вы, зеркало и пульт",
       "description": "Камера спрятана за зеркалом, фотографа в студии нет — снимаете себя сами и сами выбираете кадры. Получается непостановочно.",
-      "tags": ["фото", "вдвоём", "без посторонних"] },
-
-    { "id": "pyat-komnat", "title": "Квест «Пять комнат»", "category": "active", "top": false,
-      "area": "Новый Арбат", "address": "Новый Арбат, 17", "price": "₽₽", "duration": "1 час",
+      "tags": ["фото", "вдвоём", "без посторонних"]
+    },
+    {
+      "id": "pyat-komnat",
+      "title": "Квест «Пять комнат»",
+      "category": "active",
+      "top": false,
+      "area": "Новый Арбат",
+      "address": "Новый Арбат, 17",
+      "price": "₽₽",
+      "duration": "1 час",
       "tagline": "Игра в полной темноте",
       "description": "Квест без света: ориентироваться приходится на ощупь и голос друг друга. Быстро снимает неловкость первого свидания.",
-      "tags": ["квест", "необычное", "сближает"] },
-
-    { "id": "propoest", "title": "Мастер-класс «Про поесть»", "category": "creative", "top": false,
-      "area": "Староваганьковский", "address": "Староваганьковский пер., 19, стр. 7", "price": "₽₽", "duration": "3 часа",
+      "tags": ["квест", "необычное", "сближает"]
+    },
+    {
+      "id": "propoest",
+      "title": "Мастер-класс «Про поесть»",
+      "category": "creative",
+      "top": false,
+      "area": "Староваганьковский",
+      "address": "Староваганьковский пер., 19, стр. 7",
+      "price": "₽₽",
+      "duration": "3 часа",
       "tagline": "Готовите ужин сами и сразу его едите",
       "description": "Под руководством шефа готовите несколько блюд, потом садитесь за общий стол. Заодно знакомитесь с другими парами.",
-      "tags": ["еда", "руками", "компания"] }
+      "tags": ["еда", "руками", "компания"]
+    }
   ]
 }
 </script>
@@ -236,6 +554,10 @@ img{display:block}
 .slider{
   display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
   padding:22px var(--pad) 4px;margin:0;
+  /* Без scroll-padding браузер подгоняет первый слайд под левый край скроллпорта
+     и съедает padding-left — карточка прилипает к краю экрана. */
+  scroll-padding-left:var(--pad);
+  scroll-padding-right:var(--pad);
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
 }
 .slider::-webkit-scrollbar{display:none}
@@ -335,6 +657,7 @@ img{display:block}
 }
 .empty{padding:56px var(--pad);text-align:center;color:var(--text-2);font-size:16px}
 .empty strong{display:block;color:var(--text);font-size:19px;font-weight:600;margin-bottom:6px}
+.ver{text-align:center;font-size:13px;color:var(--text-2);opacity:.5;padding:4px 0 8px}
 
 /* ---------- баннер «она выбрала» ---------- */
 .banner{
@@ -418,6 +741,7 @@ img{display:block}
   <div class="slider" id="slider"></div>
   <nav class="filters" id="filters"></nav>
   <div class="list" id="list"></div>
+  <div class="ver" id="ver"></div>
 </main>
 
 <!-- ВЫБРАНО -->
@@ -467,7 +791,15 @@ img{display:block}
     creative: 'linear-gradient(145deg,#2a2413,#6b5a1f 55%,#c4a94f)'
   };
   const grad = c => GRAD[c] || GRAD.passive;
-  const rub = s => '<span class="rub">' + s + '</span>';
+  /* Разрядка нужна только шкале «₽₽₽₽» — иначе перекладины рублей сливаются
+     в одну линию. Числовые цены («1 800–2 200 ₽») оставляем как есть. */
+  const rub = s => /^₽+$/.test(s) ? '<span class="rub">' + s + '</span>' : s;
+
+  /* Фон карточки: фото поверх градиента. Если фото не загрузилось (404,
+     защита от хотлинка, нет сети) — слой просто не рисуется и остаётся градиент. */
+  const bg = p => p.photo
+    ? "url('" + p.photo + "') center/cover no-repeat, " + grad(p.category)
+    : grad(p.category);
 
   /* ---------- Telegram ---------- */
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
@@ -561,7 +893,7 @@ img{display:block}
         '<div class="slide__eyebrow">' + catLabel(p.category) + '</div>' +
         '<h3 class="slide__title">' + p.title + '</h3>' +
         '<div class="slide__sub">' + p.tagline + '</div>' +
-        '<div class="slide__media" style="background:' + grad(p.category) + '">' +
+        '<div class="slide__media" style="background:' + bg(p) + '">' +
           '<span class="slide__badge">' + p.area + '</span>' +
           '<div class="slide__foot">' +
             '<span class="slide__meta">' + rub(p.price) + ' · ' + p.duration + '</span>' +
@@ -594,7 +926,7 @@ img{display:block}
     opts = opts || {};
     const c = el('div','card');
     c.innerHTML =
-      '<div class="card__media" style="background:' + grad(p.category) + '">' +
+      '<div class="card__media" style="background:' + bg(p) + '">' +
         '<span class="card__kind">' + catLabel(p.category) + '</span>' +
         (opts.noHeart ? '' :
           '<button class="heart" aria-pressed="' + picks.has(p.id) + '" aria-label="Хочу сюда">' + HEART + '</button>') +
@@ -693,7 +1025,7 @@ img{display:block}
     const p = PLACES.find(x => x.id === id);
     if (!p) return;
     openId = id;
-    document.getElementById('sheetMedia').style.background = grad(p.category);
+    document.getElementById('sheetMedia').style.background = bg(p);
     document.getElementById('sheetBody').innerHTML =
       '<div class="sheet__kind">' + catLabel(p.category) + '</div>' +
       '<h2 class="sheet__title">' + p.title + '</h2>' +
@@ -803,6 +1135,9 @@ img{display:block}
   }
 
   /* ---------- старт ---------- */
+  document.getElementById('ver').textContent =
+    'версия ' + CONFIG.VERSION + ' · ' + PLACES.length + ' ' +
+    plural(PLACES.length, 'место', 'места', 'мест');
   renderSlider();
   renderFilters();
   renderList();
