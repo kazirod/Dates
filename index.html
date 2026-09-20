@@ -18,7 +18,7 @@
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "1.8"
+    VERSION: "1.9"
   };
 </script>
 
@@ -776,16 +776,25 @@ img{display:block}
   backdrop-filter:blur(18px);
 }
 .tabbar__i{
-  display:flex;align-items:center;gap:7px;border-radius:100px;padding:9px 16px;
-  font-size:15px;color:var(--text-2);position:relative;transition:background .2s,color .2s;
+  display:flex;align-items:center;gap:8px;border-radius:100px;padding:9px 13px;
+  font-size:15px;color:var(--text-2);transition:background .2s,color .2s,padding .2s;
 }
-.tabbar__i[aria-selected="true"]{background:var(--bg);color:var(--text);font-weight:600}
-.tabbar__i svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+/* Подпись только у активной вкладки — неактивная сжимается до иконки */
+.tabbar__i[aria-selected="true"]{background:var(--bg);color:var(--text);font-weight:600;padding:9px 16px}
+.tabbar__lbl{display:none}
+.tabbar__i[aria-selected="true"] .tabbar__lbl{display:inline}
+.tabbar__i svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+/* Обёртка нужна, чтобы счётчик цеплялся к иконке, а не к кнопке:
+   кнопка меняет ширину при смене активной вкладки, иконка — нет. */
+.tabbar__ic{position:relative;display:grid;place-items:center}
 .badge{
-  position:absolute;top:4px;right:10px;min-width:18px;height:18px;padding:0 5px;
+  position:absolute;top:-7px;right:-9px;min-width:17px;height:17px;padding:0 5px;
   background:var(--accent);color:#fff;border-radius:9px;
-  font-size:11px;font-weight:700;display:grid;place-items:center;
+  font-size:11px;font-weight:700;font-style:normal;
+  display:grid;place-items:center;
+  box-shadow:0 0 0 2px var(--surface);
 }
+.tabbar__i[aria-selected="true"] .badge{box-shadow:0 0 0 2px var(--bg)}
 /* ₽₽₽ — без letter-spacing перекладины рублей сливаются в одну линию */
 .rub{letter-spacing:.14em}
 .hidden{display:none !important}
@@ -823,14 +832,17 @@ img{display:block}
 </section>
 
 <nav class="tabbar">
-  <button class="tabbar__i" id="tabHome" aria-selected="true">
-    <svg viewBox="0 0 24 24"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
-    <span>Главная</span>
+  <button class="tabbar__i" id="tabHome" aria-selected="true" aria-label="Главная">
+    <span class="tabbar__ic">
+      <svg viewBox="0 0 24 24"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+    </span>
+    <span class="tabbar__lbl">Главная</span>
   </button>
-  <button class="tabbar__i" id="tabPicks">
-    <svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 1 1 19.4 13z"/></svg>
-    <span>Места</span>
-    <i class="badge hidden" id="picksBadge">0</i>
+  <button class="tabbar__i" id="tabPicks" aria-label="Выбранные места">
+    <span class="tabbar__ic">
+      <svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 1 1 19.4 13z"/></svg>
+      <i class="badge hidden" id="picksBadge">0</i>
+    </span>
   </button>
 </nav>
 
@@ -906,6 +918,17 @@ img{display:block}
         applyInsets();
         tg.onEvent('safeAreaChanged', applyInsets);
         tg.onEvent('contentSafeAreaChanged', applyInsets);
+
+        /* Полноэкранный режим. Bot API 8.0+, только мобильные клиенты —
+           на десктопе запрос завершится событием fullscreenFailed, и мы
+           просто остаёмся в обычном окне. В фулскрине шапка Telegram
+           прозрачная и лежит поверх контента, поэтому отступы пересчитываем
+           на каждое изменение — иначе приветствие уедет под кнопку Close. */
+        if (tg.requestFullscreen) {
+          try { tg.requestFullscreen(); } catch(e){}
+          tg.onEvent('fullscreenChanged', applyInsets);
+          tg.onEvent('fullscreenFailed', applyInsets);
+        }
       }
 
       /* Пользователь переключил тему в Telegram — перекрашиваемся следом. */
