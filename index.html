@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <title>Куда пойдём</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+ 
 <!-- ==========================================================
      НАСТРОЙКИ — правь здесь
      ========================================================== -->
@@ -14,18 +14,19 @@
     // Ссылка на мини-апп. Менять не нужно — она уже боевая.
     APP_LINK: "https://t.me/kudaa_poidem_bot/dates",
     APP_NAME: "Куда пойдём",
-
+ 
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "1.11.1"
+    VERSION: "2.0"
   };
 </script>
-
+ 
 <!-- ==========================================================
      ДАННЫЕ МЕСТ — заменяй на свои, вёрстку трогать не нужно.
      category: resto | cafe | active | passive | relax | creative
-     top: true  → попадает в верхний слайдер
+     collections — подборки в верхнем слайдере; место попадает в подборку
+     через поле collection: "<id подборки>", а на её карту — через lat/lng
      ========================================================== -->
 <script id="places-data" type="application/json">
 {
@@ -55,6 +56,15 @@
       "label": "Творчество"
     }
   ],
+  "collections": [
+    {
+      "id": "spa",
+      "title": "Спа и бани",
+      "sub": "Где согреться и расслабиться вдвоём",
+      "area": "Москва и область",
+      "photo": ""
+    }
+  ],
   "places": [
     {
       "id": "mosca",
@@ -68,7 +78,11 @@
       "duration": "2 часа",
       "tagline": "Итальянская кухня на Профсоюзной",
       "description": "Ресторан итальянской кухни в ТЦ «Дирижабль», второй этаж. Рядом с метро «Новые Черёмушки» — удобно, если не хочется ехать в центр.",
-      "tags": ["итальянская кухня", "рядом с метро", "юго-запад"],
+      "tags": [
+        "итальянская кухня",
+        "рядом с метро",
+        "юго-запад"
+      ],
       "map": "https://yandex.ru/maps/org/mosca/193259469820/"
     },
     {
@@ -83,7 +97,11 @@
       "duration": "2 часа",
       "tagline": "Демократичный мясной ресторан",
       "description": "Демократичный стейк-хаус в том же «Дирижабле», этажом выше Mosca. Самый бюджетный вариант из ресторанов в подборке.",
-      "tags": ["мясо", "недорого", "рядом с метро"]
+      "tags": [
+        "мясо",
+        "недорого",
+        "рядом с метро"
+      ]
     },
     {
       "id": "il-matto",
@@ -97,7 +115,11 @@
       "duration": "2–3 часа",
       "tagline": "Меню как путешествие по Италии",
       "description": "Итальянский ресторан, где меню будто проводит по всем уголкам Италии. В интерьере мрамор, панели из корня тополя, бархат и карты таро на стенах, а на втором этаже прячется лобби-бар с леопардовыми креслами.",
-      "tags": ["итальянская кухня", "лобби-бар", "интерьер"]
+      "tags": [
+        "итальянская кухня",
+        "лобби-бар",
+        "интерьер"
+      ]
     },
     {
       "id": "oltremare",
@@ -111,7 +133,11 @@
       "duration": "2–3 часа",
       "tagline": "Морская кухня у воды",
       "description": "Ресторан Lucky Group на Саввинской набережной: паста с морепродуктами, высокие потолки, люстра-водопад и большие окна на реку.",
-      "tags": ["морепродукты", "у воды", "особый повод"]
+      "tags": [
+        "морепродукты",
+        "у воды",
+        "особый повод"
+      ]
     },
     {
       "id": "salone",
@@ -125,7 +151,11 @@
       "duration": "2 часа",
       "tagline": "Паста-бар с домашней подачей",
       "description": "Белые скатерти, венские стулья, тёплые лампы и паста как главный герой меню. Камерно и без пафоса — хорошо для разговора.",
-      "tags": ["паста", "уютно", "вино"]
+      "tags": [
+        "паста",
+        "уютно",
+        "вино"
+      ]
     },
     {
       "id": "self-edge",
@@ -139,7 +169,11 @@
       "duration": "2–3 часа",
       "tagline": "Омакасе и суши у стойки",
       "description": "Японский ресторан с омакасе: шеф сам решает, что подать. Винил на стенах, бар в центре зала. На Яндекс.Картах карточка заведения подписана как Dreamteam — это тот же адрес.",
-      "tags": ["японская кухня", "омакасе", "бар"],
+      "tags": [
+        "японская кухня",
+        "омакасе",
+        "бар"
+      ],
       "mapq": "Dreamteam"
     },
     {
@@ -154,7 +188,11 @@
       "duration": "2 часа",
       "tagline": "Маленькая Дания на Патриарших",
       "description": "Датская кухня и скандинавский минимализм: светлые стены, полотенца вместо декора, стол у окна на двоих. Работает до полуночи.",
-      "tags": ["скандинавская кухня", "камерно", "Патриаршие"],
+      "tags": [
+        "скандинавская кухня",
+        "камерно",
+        "Патриаршие"
+      ],
       "map": "https://yandex.ru/maps/org/copen_57/158425961381/"
     },
     {
@@ -169,7 +207,11 @@
       "duration": "2–3 часа",
       "tagline": "Фирменное блюдо — говядина веллингтон",
       "description": "Ресторан Lucky Group на Неглинной: тёмное дерево, белые скатерти, зеркала. Главное блюдо — говядина веллингтон.",
-      "tags": ["fine dining", "особый повод", "центр"]
+      "tags": [
+        "fine dining",
+        "особый повод",
+        "центр"
+      ]
     },
     {
       "id": "lui",
@@ -183,7 +225,11 @@
       "duration": "3 часа",
       "tagline": "Итальянская кухня на «Красном Октябре»",
       "description": "Итальянская кухня на «Красном Октябре»: расписные стены, приглушённый свет, посуда с синим узором. Сюда идут на повод.",
-      "tags": ["итальянская кухня", "дорого", "особый повод"]
+      "tags": [
+        "итальянская кухня",
+        "дорого",
+        "особый повод"
+      ]
     },
     {
       "id": "eva",
@@ -197,7 +243,11 @@
       "duration": "2 часа",
       "tagline": "Греческая кухня в Хамовниках",
       "description": "Светлый зал, клетчатые скатерти, большие окна. Греческая кухня, есть кофе и десерты — подойдёт и для дневного свидания.",
-      "tags": ["греческая кухня", "светло", "днём"]
+      "tags": [
+        "греческая кухня",
+        "светло",
+        "днём"
+      ]
     },
     {
       "id": "resto-360",
@@ -210,7 +260,11 @@
       "duration": "2–3 часа",
       "tagline": "Ужин на высоте 327 метров",
       "description": "Панорамный ресторан на 89-м этаже башни «Федерация». Круговой вид на всю Москву, европейская кухня, можно заранее попросить украсить стол. При бронировании нужен депозит.",
-      "tags": ["вид на город", "особый повод", "бронь обязательна"],
+      "tags": [
+        "вид на город",
+        "особый повод",
+        "бронь обязательна"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/10700095/2a0000018b1efca52ba52f4a9c2f5451ae2a/M_height",
       "mapq": "Панорама 360"
     },
@@ -225,7 +279,11 @@
       "duration": "3 часа",
       "tagline": "Гастрономический иммерсивный театр",
       "description": "Спектакль и ужин одновременно: проекции, живой вокал, свет — и 6–7 блюд, каждое встроено в сценарий вечера.",
-      "tags": ["необычное", "спектакль", "вау-эффект"],
+      "tags": [
+        "необычное",
+        "спектакль",
+        "вау-эффект"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/6203703/2a0000018959b46cd28d9a8b57623ad23d74/L_height",
       "mapq": "Svet"
     },
@@ -240,7 +298,11 @@
       "duration": "2 часа",
       "tagline": "Пустая библиотека после закрытия",
       "description": "Прогулка по Российской государственной библиотеке вечером, когда посетителей уже нет: читальные залы, подземные тоннели, вид на Кремль. Сеансы 20:00–22:00.",
-      "tags": ["экскурсия", "атмосферно", "вечер"],
+      "tags": [
+        "экскурсия",
+        "атмосферно",
+        "вечер"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/474904/2a0000015e6727bbae913b58a09f83a1f069/L_height",
       "mapq": "Дом Пашкова"
     },
@@ -255,7 +317,11 @@
       "duration": "2 часа",
       "tagline": "Звёздное небо под куполом",
       "description": "Большой звёздный зал, интерактивный «Лунариум» и вечерние романтические программы. Можно заказать персональное шоу.",
-      "tags": ["романтично", "в любую погоду", "космос"],
+      "tags": [
+        "романтично",
+        "в любую погоду",
+        "космос"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/216588/2a0000015b2002387cc087327c4f5669bf73/L_height",
       "mapq": "Московский планетарий"
     },
@@ -270,7 +336,11 @@
       "duration": "2,5 часа",
       "tagline": "Москва-река с воды",
       "description": "Прогулка на яхте-ледоколе круглый год. Есть рейсы с джазом и театральной программой, панорамное остекление, ужин на борту.",
-      "tags": ["круглый год", "вид на город", "ужин"],
+      "tags": [
+        "круглый год",
+        "вид на город",
+        "ужин"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/15487932/2a00000197a179dcfa75aaab0cfc26478428/L_height",
       "mapq": "Флотилия Radisson Royal"
     },
@@ -285,7 +355,11 @@
       "duration": "2–3 часа",
       "tagline": "Новоорлеанский джаз каждый вечер",
       "description": "Джазовый бар с креольской кухней. Живая музыка каждый вечер.",
-      "tags": ["живая музыка", "бар", "вечер"],
+      "tags": [
+        "живая музыка",
+        "бар",
+        "вечер"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/15544497/2a00000199712c6bb98c6aa59a837b6c3f17/M_height"
     },
     {
@@ -299,7 +373,11 @@
       "duration": "1 час",
       "tagline": "Бесплатные каппинги по средам",
       "description": "Спешелти-кофейня с еженедельными дегустациями: пробуете несколько сортов вслепую и обсуждаете. Хорошо для первого, необязывающего свидания.",
-      "tags": ["кофе", "недорого", "разговоры"],
+      "tags": [
+        "кофе",
+        "недорого",
+        "разговоры"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/16482798/2a00000197e027b94f504e3e9b4f78b4586a/L_height"
     },
     {
@@ -313,7 +391,11 @@
       "duration": "2 часа",
       "tagline": "Испанская кухня и винная карта",
       "description": "Тапас, паэлья и большой выбор вина по бокалам. Тёплый свет, негромко — удобно разговаривать.",
-      "tags": ["вино", "уютно", "ужин"],
+      "tags": [
+        "вино",
+        "уютно",
+        "ужин"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/10231026/2a0000018ef5ca8975051e5d2134ba6d4b22/L_height"
     },
     {
@@ -327,7 +409,10 @@
       "duration": "2 часа",
       "tagline": "Перуанская кухня",
       "description": "Севиче, тирадито и писко-сауэр в интерьере из натуральных материалов. Необычная кухня — есть о чём поговорить.",
-      "tags": ["необычная кухня", "коктейли"],
+      "tags": [
+        "необычная кухня",
+        "коктейли"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/7695774/2a0000018a83d5a861140a9a07d84b05ab42/M_height"
     },
     {
@@ -341,7 +426,11 @@
       "duration": "3 часа",
       "tagline": "Лофт в бывшем депо с танцполом",
       "description": "Большие пространства, паста и пицца, ближе к ночи — диджей и танцпол. Подходит, если вечер хочется продолжить.",
-      "tags": ["танцы", "лофт", "поздний вечер"],
+      "tags": [
+        "танцы",
+        "лофт",
+        "поздний вечер"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/14376766/2a00000194eb077c2536caa0b5fcdf629b92/L_height"
     },
     {
@@ -355,7 +444,11 @@
       "duration": "1,5–2 часа",
       "tagline": "Парящий мост и четыре климата",
       "description": "Прогулка по зонам с разной растительностью, Парящий мост над рекой, Ледяная пещера и медиацентр. Вход в парк бесплатный.",
-      "tags": ["бесплатно", "прогулка", "центр"],
+      "tags": [
+        "бесплатно",
+        "прогулка",
+        "центр"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/992583/2a0000016156d8e0f9828fda3762cd690ca3/M_height",
       "mapq": "Парк Зарядье"
     },
@@ -370,7 +463,11 @@
       "duration": "1,5 часа",
       "tagline": "Оранжереи круглый год",
       "description": "Старейший ботанический сад Москвы: пальмовая оранжерея, суккуленты, пруд с черепахами, сезонные выставки. Работает и зимой.",
-      "tags": ["тепло зимой", "недорого", "фото"],
+      "tags": [
+        "тепло зимой",
+        "недорого",
+        "фото"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/16318204/2a00000199c431792cd06d5280215c6a1a6f/L_height",
       "mapq": "Аптекарский огород"
     },
@@ -385,7 +482,11 @@
       "duration": "1 час",
       "tagline": "Полёт над Москвой-рекой",
       "description": "Кабинка от Воробьёвых гор до «Лужников», есть прозрачные. Хорошо совмещается с прогулкой по смотровой.",
-      "tags": ["вид на город", "быстро", "фото"],
+      "tags": [
+        "вид на город",
+        "быстро",
+        "фото"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/14676222/2a000001960b8c115985df233110d2a1120f/M_height",
       "mapq": "Московская канатная дорога"
     },
@@ -400,7 +501,11 @@
       "duration": "1,5 часа",
       "tagline": "Свидание на адреналине",
       "description": "Крытые трассы для новичков и опытных, на площадке же VR-зона. Вариант, если сидеть за столом весь вечер не хочется.",
-      "tags": ["адреналин", "соревнование", "в помещении"],
+      "tags": [
+        "адреналин",
+        "соревнование",
+        "в помещении"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/14005436/2a00000193f27ea0efe9e3e35b9fb86421d1/L_height",
       "mapq": "Микс Картинг"
     },
@@ -415,7 +520,10 @@
       "duration": "2 часа",
       "tagline": "Партия в здании Мельникова",
       "description": "Бильярдный клуб в историческом здании архитектора Мельникова: высокие своды, свой ресторан. В пт–вс депозит.",
-      "tags": ["игра", "красивый интерьер"],
+      "tags": [
+        "игра",
+        "красивый интерьер"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/16500335/2a00000199fcfdc67d5891522ae2efd1710b/L_height",
       "mapq": "Дом русского бильярда"
     },
@@ -430,7 +538,11 @@
       "duration": "3–4 часа",
       "tagline": "9 парных, бассейны и хаммам",
       "description": "Большой банный комплекс: парные разных температур, бассейны, джакузи, хаммам и рестораны на территории. Скорее не для первого свидания.",
-      "tags": ["спа", "на весь вечер", "тепло"],
+      "tags": [
+        "спа",
+        "на весь вечер",
+        "тепло"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/12814440/2a0000019266c711451e5152dbc1199eee13/L_height",
       "mapq": "Gremm"
     },
@@ -445,7 +557,11 @@
       "duration": "1,5 часа",
       "tagline": "Орган в готическом соборе",
       "description": "Кафедральный собор Непорочного Зачатия — единственная неоготика в Москве. Еженедельные органные вечера и тематические программы.",
-      "tags": ["музыка", "тихо", "атмосферно"],
+      "tags": [
+        "музыка",
+        "тихо",
+        "атмосферно"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/18111423/2a0000019e984481c407a7a8410d77002046/M_height",
       "mapq": "Кафедральный собор Непорочного Зачатия"
     },
@@ -460,7 +576,11 @@
       "duration": "2 часа",
       "tagline": "Искусство на бывшей электростанции",
       "description": "Выставки, кино, концерты и мастер-классы в здании Ренцо Пьяно. Много бесплатных программ, рядом Берёзовая роща и набережная.",
-      "tags": ["искусство", "бесплатно", "центр"],
+      "tags": [
+        "искусство",
+        "бесплатно",
+        "центр"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/14076755/2a00000196a69cda99ba92583dd03d471901/M_height",
       "mapq": "ГЭС-2"
     },
@@ -475,7 +595,11 @@
       "duration": "1,5 часа",
       "tagline": "Слепить посуду в четыре руки",
       "description": "Занятие с инструктором за гончарным кругом: работаете вдвоём над одним изделием. Готовую вещь забираете после обжига.",
-      "tags": ["руками", "фото", "сближает"],
+      "tags": [
+        "руками",
+        "фото",
+        "сближает"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/4412147/2a00000178ceae654d414cdf75e75cb695c8/L_height",
       "mapq": "Гончарная мастерская Жюль и Верн"
     },
@@ -490,7 +614,11 @@
       "duration": "1 час",
       "tagline": "Только вы, зеркало и пульт",
       "description": "Камера спрятана за зеркалом, фотографа в студии нет — снимаете себя сами и сами выбираете кадры. Получается непостановочно.",
-      "tags": ["фото", "вдвоём", "без посторонних"],
+      "tags": [
+        "фото",
+        "вдвоём",
+        "без посторонних"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/11373142/2a0000018f7ac1693b68ee7b030ecb816685/L_height",
       "mapq": "Фотоателье автопортрета UU"
     },
@@ -505,7 +633,11 @@
       "duration": "1 час",
       "tagline": "Игра в полной темноте",
       "description": "Квест без света: ориентироваться приходится на ощупь и голос друг друга. Быстро снимает неловкость первого свидания.",
-      "tags": ["квест", "необычное", "сближает"],
+      "tags": [
+        "квест",
+        "необычное",
+        "сближает"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/14235465/2a00000192a0a1bb154057c11b69f92d6f55/XXL_height",
       "map": "https://yandex.ru/maps/org/pyat_komnat/238269973624/"
     },
@@ -520,14 +652,238 @@
       "duration": "3 часа",
       "tagline": "Готовите ужин сами и сразу его едите",
       "description": "Под руководством шефа готовите несколько блюд, потом садитесь за общий стол. Заодно знакомитесь с другими парами.",
-      "tags": ["еда", "руками", "компания"],
+      "tags": [
+        "еда",
+        "руками",
+        "компания"
+      ],
       "photo": "https://avatars.mds.yandex.net/get-altay/20387359/2a0000019e1c686a06573ebaeeeefc901b14/L_height",
       "mapq": "Про поесть"
+    },
+    {
+      "id": "spa-tengri",
+      "title": "Спа Тенгри",
+      "area": "Пресня",
+      "address": "2-я Звенигородская ул., 12, ЖК Lucky",
+      "price": "от 5 900 ₽",
+      "duration": "3–4 часа",
+      "tagline": "Три этажа спа и уличный бассейн",
+      "description": "Новое спа-пространство в ЖК Lucky: подогреваемый бассейн на улице, несколько тематических парных, крытый бассейн со световым шоу и большая терраса для отдыха.",
+      "tags": [
+        "бассейн",
+        "парная",
+        "терраса"
+      ],
+      "mapq": "Тенгри спа",
+      "lat": 55.7618,
+      "lng": 37.5552,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-malevich",
+      "title": "Бани Малевича",
+      "area": "Барвиха",
+      "address": "Барвиха, Одинцовский г. о.",
+      "price": "от 6 500 ₽",
+      "duration": "полдня",
+      "tagline": "Банный комплекс в сосновом лесу",
+      "description": "Большие общественные бани в ближайшем Подмосковье. Подогреваемый бассейн под открытым небом, групповые парения, зоны отдыха и тайский массаж.",
+      "tags": [
+        "за город",
+        "лес",
+        "бассейн"
+      ],
+      "mapq": "Бани Малевича",
+      "lat": 55.73864,
+      "lng": 37.29977,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-wave",
+      "title": "The Wave Spa",
+      "area": "Таганская",
+      "address": "Земляной Вал, 70, отель Mövenpick",
+      "price": "по прайсу",
+      "duration": "2–3 часа",
+      "tagline": "Балийский массаж и бассейн при отеле",
+      "description": "Обновлённый спа-комплекс в отеле Mövenpick: балийский массаж и спа-ритуалы, бассейн, сауна, хаммам и зоны отдыха. Пускают гостей отеля и гостей спа.",
+      "tags": [
+        "массаж",
+        "хаммам",
+        "бассейн"
+      ],
+      "mapq": "The Wave Spa",
+      "lat": 55.7444,
+      "lng": 37.65442,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-green-lake",
+      "title": "Зелёное Озеро",
+      "area": "Шуколово",
+      "address": "Шуколово, Дмитровский г. о.",
+      "price": "от 15 000 ₽ / 2 ч",
+      "duration": "целый день",
+      "tagline": "Баня с видом на озеро",
+      "description": "Загородный клуб: баня с панорамными окнами на озеро, ресторан, пони и прогулочные дорожки. Цена за аренду бани — выгоднее компанией.",
+      "tags": [
+        "за город",
+        "озеро",
+        "аренда"
+      ],
+      "mapq": "Зелёное озеро загородный клуб",
+      "lat": 56.22952,
+      "lng": 37.5058,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-mandara",
+      "title": "Mandara Spa",
+      "area": "Смоленская",
+      "address": "Новинский бульвар, 8, стр. 2, отель Lotte",
+      "price": "10 000 ₽",
+      "duration": "3 часа",
+      "tagline": "Роскошное спа в отеле Lotte",
+      "description": "Спа на 1 500 м²: джакузи, шёлковая ванна, сауна, хаммам, зона релаксации и балийский массаж.",
+      "tags": [
+        "люкс",
+        "массаж",
+        "джакузи"
+      ],
+      "mapq": "Mandara Spa",
+      "lat": 55.75059,
+      "lng": 37.5838,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-palmira",
+      "title": "СПА в Palmira Art Hotel",
+      "area": "Хорошёвский",
+      "address": "отель Palmira Art Hotel",
+      "price": "от 4 500 ₽",
+      "duration": "2–3 часа",
+      "tagline": "Бани и бассейн без аренды номера",
+      "description": "Спа-комплекс нового отеля: бани, бассейн и гидромассажные ванны. Номер снимать не нужно.",
+      "tags": [
+        "бани",
+        "бассейн",
+        "отель"
+      ],
+      "mapq": "Palmira Art Hotel",
+      "lat": 55.77591,
+      "lng": 37.51659,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-h2o",
+      "title": "SPA-комплекс H2O",
+      "area": "Лужники",
+      "address": "ул. Лужники, 24, Дворец тенниса",
+      "price": "от 3 000 ₽",
+      "duration": "3 часа",
+      "tagline": "Доступное спа с панорамным видом",
+      "description": "Новый комплекс во Дворце тенниса «Лужники»: большой бассейн, сауны, хаммам, зоны отдыха с панорамным видом, травяной чай и массажи.",
+      "tags": [
+        "бассейн",
+        "сауна",
+        "недорого"
+      ],
+      "mapq": "H2O спа Лужники",
+      "lat": 55.7175,
+      "lng": 37.5545,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-sky-zavidnoe",
+      "title": "Sky Spa Завидное",
+      "area": "Видное",
+      "address": "загородный клуб «ЗаВидное»",
+      "price": "по прайсу",
+      "duration": "полдня",
+      "tagline": "Бионическая баня в 10 минутах от МКАД",
+      "description": "Новая баня в загородном клубе: парная с голосовым управлением, купель, зоны отдыха, горячий чан под открытым небом и ароматерапия.",
+      "tags": [
+        "за город",
+        "чан",
+        "необычно"
+      ],
+      "mapq": "Sky Spa ЗаВидное",
+      "lat": 55.56085,
+      "lng": 37.63967,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-element",
+      "title": "SPA-центр Element",
+      "area": "Кунцево",
+      "address": "Молодогвардейская ул., 8, корп. 1",
+      "price": "массаж от 9 000 ₽",
+      "duration": "2–3 часа",
+      "tagline": "Эстетичное спа с саунами в стоимости",
+      "description": "Сеть спа-центров с красивым интерьером. В цену процедуры входят сауны, напитки и полезные снеки.",
+      "tags": [
+        "массаж",
+        "эстетика",
+        "сауна"
+      ],
+      "mapq": "Element Spa",
+      "lat": 55.73586,
+      "lng": 37.43905,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-paroma",
+      "title": "Русская баня Paroma",
+      "area": "Пресня",
+      "address": "Рочдельская ул., 15, стр. 7",
+      "price": "по прайсу",
+      "duration": "3 часа",
+      "tagline": "Персональное парение в центре",
+      "description": "Русская баня, где гостями занимаются персонально: дегустация чая, парение в несколько этапов, купель, веники и обливания.",
+      "tags": [
+        "русская баня",
+        "веники",
+        "центр"
+      ],
+      "mapq": "Paroma баня",
+      "lat": 55.75658,
+      "lng": 37.56,
+      "category": "relax",
+      "collection": "spa"
+    },
+    {
+      "id": "spa-alatyr",
+      "title": "Баня Алатырь",
+      "area": "Клязьминское вдхр.",
+      "address": "берег Клязьминского водохранилища",
+      "price": "по прайсу",
+      "duration": "целый день",
+      "tagline": "Славянская баня прямо на воде",
+      "description": "Банный комплекс на берегу водохранилища: славянская эстетика, приватность, авторские программы парения, бани на воде и северная кухня.",
+      "tags": [
+        "за город",
+        "вода",
+        "приватно"
+      ],
+      "mapq": "Баня Алатырь",
+      "lat": 55.985,
+      "lng": 37.62,
+      "category": "relax",
+      "collection": "spa"
     }
   ]
 }
 </script>
-
+ 
 <style>
 /* ---------- токены ----------
    Цвета наследуются от клиента Telegram через --tg-theme-*.
@@ -581,7 +937,7 @@
   --surface: color-mix(in srgb, var(--text) 9%, var(--bg));
   --hairline: rgba(255,255,255,.08);
 }
-
+ 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
@@ -601,7 +957,7 @@ body[data-screen="picks"]{
 }
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 img{display:block}
-
+ 
 /* ---------- шапка ---------- */
 .greet{
   display:flex;align-items:center;gap:12px;
@@ -620,7 +976,7 @@ img{display:block}
 /* На странице места приветствие ни к чему — это карточка заведения */
 body[data-screen="place"] .greet,
 body[data-screen="place"] .rule{display:none}
-
+ 
 /* ---------- слайдер ---------- */
 .slider{
   display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
@@ -667,7 +1023,7 @@ body[data-screen="place"] .rule{display:none}
   background:rgba(255,255,255,.2);backdrop-filter:blur(12px);
   border-radius:100px;padding:9px 17px;font-size:15px;font-weight:500;color:#fff;
 }
-
+ 
 /* ---------- фильтры ---------- */
 .filters{
   position:sticky;top:0;z-index:20;background:var(--bg);
@@ -691,7 +1047,7 @@ body[data-screen="place"] .rule{display:none}
   content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;
   background:var(--text);border-radius:2px;
 }
-
+ 
 /* ---------- список ---------- */
 .list{padding:2px var(--pad) 24px;display:flex;flex-direction:column;gap:12px}
 .card{
@@ -722,7 +1078,7 @@ body[data-screen="place"] .rule{display:none}
   font-size:14px;line-height:1.42;color:var(--text-2);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-
+ 
 /* ---------- секции ---------- */
 .section-h{
   padding:4px var(--pad) 10px;font-size:20px;font-weight:600;letter-spacing:-.02em;
@@ -730,7 +1086,7 @@ body[data-screen="place"] .rule{display:none}
 .empty{padding:56px var(--pad);text-align:center;color:var(--text-2);font-size:16px}
 .empty strong{display:block;color:var(--text);font-size:19px;font-weight:600;margin-bottom:6px}
 .ver{text-align:center;font-size:13px;color:var(--text-2);opacity:.5;padding:4px 0 8px}
-
+ 
 /* ---------- баннер «она выбрала» ---------- */
 .banner{
   margin:20px var(--pad) 18px;background:var(--surface);
@@ -740,7 +1096,7 @@ body[data-screen="place"] .rule{display:none}
 .banner__dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
 .banner__t{font-size:16px;font-weight:600;margin-bottom:2px}
 .banner__s{font-size:14px;color:var(--text-2)}
-
+ 
 /* ---------- страница места ---------- */
 .place__media{height:212px;margin:10px var(--pad) 0;border-radius:var(--r-lg)}
 .place__body{padding:18px var(--pad) 0}
@@ -755,7 +1111,7 @@ body[data-screen="place"] .rule{display:none}
 }
 .backchip svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 body.no-tg .backchip{display:inline-flex}
-
+ 
 .facts{display:flex;flex-direction:column;gap:0;background:var(--surface);border-radius:var(--r-sm);padding:2px 14px;margin-bottom:16px}
 .fact{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--sep);font-size:15px}
 .fact:last-child{border-bottom:0}
@@ -771,7 +1127,7 @@ body.no-tg .backchip{display:inline-flex}
 .btn:active{opacity:.7}
 .btn--on{background:var(--accent);color:#fff}
 .btn--ghost{background:var(--surface);color:var(--text)}
-
+ 
 /* ---------- плавающий контейнер с кнопками ----------
    Границы у него нет. Вместо неё слой, который снизу вверх растворяется:
    и заливка цветом фона, и размытие гаснут по одному и тому же градиенту,
@@ -796,7 +1152,7 @@ body.no-tg .backchip{display:inline-flex}
 .actionbar--above{
   padding-bottom:calc(74px + max(var(--safe-bottom), env(safe-area-inset-bottom,0px)));
 }
-
+ 
 /* ---------- таб-бар ---------- */
 .tabbar{
   /* Выше плавающего контейнера (z-index 55): его заливка доходит до низа
@@ -831,18 +1187,40 @@ body.no-tg .backchip{display:inline-flex}
 /* Счётчик выступает за иконку вправо — отодвигаем подпись, чтобы не наезжал */
 #tabPicks[aria-selected="true"] .tabbar__lbl{margin-left:9px}
 /* ₽₽₽ — без letter-spacing перекладины рублей сливаются в одну линию */
+/* ---------- подборка ---------- */
+body[data-screen="collection"] .greet,
+body[data-screen="collection"] .rule{display:none}
+.col__head{padding:14px var(--pad) 0}
+.colmap{
+  height:46vh;min-height:280px;margin:0 var(--pad) 16px;border-radius:var(--r-lg);
+  overflow:hidden;background:var(--surface);border:1px solid var(--hairline);
+  position:relative;z-index:0;
+}
+.colmap__msg{display:grid;place-items:center;height:100%;padding:20px;text-align:center;color:var(--text-2);font-size:15px}
+.pin{
+  width:28px;height:28px;border-radius:50%;background:var(--accent);
+  border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.35);
+  display:grid;place-items:center;
+}
+.pin svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2.4}
+.pin--on{background:#fff;border-color:var(--accent)}
+.pin--on svg{fill:var(--accent);stroke:var(--accent)}
+.pop__t{font-weight:600;font-size:15px;margin-bottom:2px;color:#000}
+.pop__m{font-size:13px;color:#555;margin-bottom:8px}
+.pop__b{background:#1c1c1e;color:#fff;border-radius:10px;padding:7px 12px;font-size:14px;font-weight:600}
+.slide--col .slide__media{height:180px}
 .rub{letter-spacing:.14em}
 .hidden{display:none !important}
 </style>
 </head>
 <body>
-
+ 
 <header class="greet">
   <div class="greet__text">Привет,&nbsp;<span class="greet__name" id="userName">гость</span></div>
   <div class="greet__ava" id="userAva">И</div>
 </header>
 <div class="rule"></div>
-
+ 
 <!-- ГЛАВНАЯ -->
 <main id="screen-home">
   <div class="slider" id="slider"></div>
@@ -850,14 +1228,28 @@ body.no-tg .backchip{display:inline-flex}
   <div class="list" id="list"></div>
   <div class="ver" id="ver"></div>
 </main>
-
+ 
 <!-- ВЫБРАНО -->
 <main id="screen-picks" class="hidden">
   <div id="picksBanner"></div>
   <h2 class="section-h" id="picksHead">Хочу сюда</h2>
   <div class="list" id="picksList"></div>
 </main>
-
+ 
+<!-- ПОДБОРКА -->
+<main id="screen-collection" class="hidden">
+  <button class="backchip" id="colBack">
+    <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg><span>Назад</span>
+  </button>
+  <div class="col__head">
+    <div class="place__kind">Подборка</div>
+    <h2 class="place__title" id="colTitle"></h2>
+    <div class="place__tagline" id="colSub"></div>
+  </div>
+  <div class="colmap" id="colMap"></div>
+  <div class="list" id="colList"></div>
+</main>
+ 
 <!-- ШТОРКА -->
 <!-- ЭКРАН МЕСТА -->
 <main id="screen-place" class="hidden">
@@ -872,7 +1264,7 @@ body.no-tg .backchip{display:inline-flex}
     <button class="btn btn--ghost" id="placeMap">Открыть на карте</button>
   </div>
 </main>
-
+ 
 <nav class="tabbar">
   <button class="tabbar__i" id="tabHome" aria-selected="true" aria-label="Главная">
     <span class="tabbar__ic">
@@ -888,17 +1280,19 @@ body.no-tg .backchip{display:inline-flex}
     <span class="tabbar__lbl">Места</span>
   </button>
 </nav>
-
+ 
 <script>
 (function(){
   "use strict";
-
+ 
   /* ---------- данные ---------- */
   const DATA = JSON.parse(document.getElementById('places-data').textContent);
   const PLACES = DATA.places;
   const CATS = DATA.categories;
+  const COLLECTIONS = DATA.collections || [];
+  const inCol = id => PLACES.filter(p => p.collection === id);
   const catLabel = id => (CATS.find(c => c.id === id) || {}).label || '';
-
+ 
   /* градиент вместо фото — пока настоящих картинок нет */
   const GRAD = {
     resto:    'linear-gradient(145deg,#2b1d16,#6b4430 55%,#c08457)',
@@ -912,13 +1306,13 @@ body.no-tg .backchip{display:inline-flex}
   /* Разрядка нужна только шкале «₽₽₽₽» — иначе перекладины рублей сливаются
      в одну линию. Числовые цены («1 800–2 200 ₽») оставляем как есть. */
   const rub = s => /^₽+$/.test(s) ? '<span class="rub">' + s + '</span>' : s;
-
+ 
   /* Фон карточки: фото поверх градиента. Если фото не загрузилось (404,
      защита от хотлинка, нет сети) — слой просто не рисуется и остаётся градиент. */
   const bg = p => p.photo
     ? "url('" + p.photo + "') center/cover no-repeat, " + grad(p.category)
     : grad(p.category);
-
+ 
   /* Ссылка на карту.
      Поиск по одному адресу открывает дом, а не заведение, поэтому ищем
      по названию организации плюс адрес — Яндекс отдаёт карточку места.
@@ -930,11 +1324,11 @@ body.no-tg .backchip{display:inline-flex}
     const q = ((p.mapq || p.title) + ', ' + p.address).replace(/[«»"]/g, '');
     return 'https://yandex.ru/maps/213/moscow/search/' + encodeURIComponent(q) + '/';
   }
-
+ 
   /* ---------- Telegram ---------- */
   const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
   const haptic = t => { try{ tg && tg.HapticFeedback && tg.HapticFeedback.impactOccurred(t||'light'); }catch(e){} };
-
+ 
   if (tg) {
     try {
       tg.ready();
@@ -943,12 +1337,12 @@ body.no-tg .backchip{display:inline-flex}
       if (tg.colorScheme) document.documentElement.dataset.theme = tg.colorScheme;
       if (tg.setHeaderColor) tg.setHeaderColor('bg_color');
       if (tg.setBackgroundColor) tg.setBackgroundColor('bg_color');
-
+ 
       /* Без этого свайп вниз по списку закрывает мини-апп. Bot API 7.7+ */
       if (tg.isVersionAtLeast && tg.isVersionAtLeast('7.7') && tg.disableVerticalSwipes) {
         tg.disableVerticalSwipes();
       }
-
+ 
       /* Безопасные отступы под чёлку и системную панель. Bot API 8.0+ */
       const applyInsets = () => {
         const s = tg.safeAreaInset || {};
@@ -961,7 +1355,7 @@ body.no-tg .backchip{display:inline-flex}
         applyInsets();
         tg.onEvent('safeAreaChanged', applyInsets);
         tg.onEvent('contentSafeAreaChanged', applyInsets);
-
+ 
         /* Полноэкранный режим. Bot API 8.0+, только мобильные клиенты —
            на десктопе запрос завершится событием fullscreenFailed, и мы
            просто остаёмся в обычном окне. В фулскрине шапка Telegram
@@ -973,7 +1367,7 @@ body.no-tg .backchip{display:inline-flex}
           tg.onEvent('fullscreenFailed', applyInsets);
         }
       }
-
+ 
       /* Пользователь переключил тему в Telegram — перекрашиваемся следом. */
       tg.onEvent('themeChanged', () => {
         document.documentElement.dataset.theme = tg.colorScheme;
@@ -981,7 +1375,7 @@ body.no-tg .backchip{display:inline-flex}
       });
     } catch(e){}
   }
-
+ 
   /* ---------- профиль ---------- */
   const u = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) || null;
   const myName = u ? (u.first_name || u.username || 'гость') : 'гость';
@@ -994,17 +1388,17 @@ body.no-tg .backchip{display:inline-flex}
   } else {
     ava.textContent = myName.charAt(0).toUpperCase();
   }
-
+ 
   /* ---------- состояние ---------- */
   const STORE = 'dates.picks.v1';
   let picks = new Set();
   try { picks = new Set(JSON.parse(localStorage.getItem(STORE) || '[]')); } catch(e){}
   const save = () => { try{ localStorage.setItem(STORE, JSON.stringify([...picks])); }catch(e){} };
-
+ 
   let category = 'all';
   let screen = 'home';
   let incoming = null;   // { name, ids } — то, что выбрала она
-
+ 
   /* ---------- входящая подборка ----------
      Telegram разрешает в start_param только A-Za-z0-9_- и 512 символов.
      Раньше сюда клали base64 от JSON — он был вдвое длиннее нужного.
@@ -1012,7 +1406,7 @@ body.no-tg .backchip{display:inline-flex}
      состоят из разрешённых символов, двойное подчёркивание в них не
      встречается — значит разделитель однозначен. */
   const b64d = s => decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))));
-
+ 
   const TRANSLIT = {
     а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',
     м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'c',ч:'ch',ш:'sh',
@@ -1024,12 +1418,12 @@ body.no-tg .backchip{display:inline-flex}
     if (t === undefined) return /[A-Za-z0-9]/.test(ch) ? ch : '';
     return ch === low ? t : t.charAt(0).toUpperCase() + t.slice(1);
   }).join('');
-
+ 
   (function readIncoming(){
     let raw = (tg && tg.initDataUnsafe && tg.initDataUnsafe.start_param) || null;
     if (!raw) raw = new URLSearchParams(location.search).get('picked');
     if (!raw) return;
-
+ 
     /* Старые ссылки (base64 от JSON) продолжают работать — они начинаются с eyJ. */
     if (/^eyJ/.test(raw)) {
       try {
@@ -1038,13 +1432,13 @@ body.no-tg .backchip{display:inline-flex}
       } catch(e){}
       return;
     }
-
+ 
     const parts = raw.split('__').filter(Boolean);
     if (parts.length < 2) return;
     const ids = parts.slice(1).filter(id => PLACES.some(x => x.id === id));
     if (ids.length) incoming = { name: parts[0] || 'Партнёр', ids };
   })();
-
+ 
   /* ---------- рендер ---------- */
   const el = (tag, cls, html) => {
     const n = document.createElement(tag);
@@ -1053,29 +1447,35 @@ body.no-tg .backchip{display:inline-flex}
     return n;
   };
   const HEART = '<svg viewBox="0 0 24 24"><path d="M12 20.3 4.6 13a4.6 4.6 0 0 1 6.5-6.5l.9.9.9-.9A4.6 4.6 0 1 1 19.4 13z"/></svg>';
-
+ 
+  /* Верхний слайдер в 2.0 — это подборки, а не отдельные места */
   function renderSlider(){
     const box = document.getElementById('slider');
     box.innerHTML = '';
-    PLACES.filter(p => p.top).forEach(p => {
-      const s = el('button','slide');
+    COLLECTIONS.forEach(c => {
+      const n = inCol(c.id).length;
+      if (!n) return;
+      const s = el('button','slide slide--col');
+      const cover = c.photo
+        ? "url('" + c.photo + "') center/cover no-repeat, " + GRAD.relax
+        : GRAD.relax;
       s.innerHTML =
-        '<div class="slide__eyebrow">' + catLabel(p.category) + '</div>' +
-        '<h3 class="slide__title">' + p.title + '</h3>' +
-        '<div class="slide__sub">' + p.tagline + '</div>' +
-        '<div class="slide__media" style="background:' + bg(p) + '">' +
-          '<span class="slide__badge">' + p.area + '</span>' +
+        '<div class="slide__eyebrow">Подборка</div>' +
+        '<h3 class="slide__title">' + c.title + '</h3>' +
+        '<div class="slide__sub">' + c.sub + '</div>' +
+        '<div class="slide__media" style="background:' + cover + '">' +
+          '<span class="slide__badge">' + c.area + '</span>' +
           '<div class="slide__foot">' +
-            '<span class="slide__meta">' + rub(p.price) + ' · ' + p.duration + '</span>' +
-            '<span class="slide__arrow">→</span>' +
-            '<span class="slide__cta">Открыть</span>' +
+            '<span class="slide__meta">' + n + ' ' + plural(n,'место','места','мест') + ' · на карте</span>' +
+            '<span class="slide__cta">Смотреть</span>' +
           '</div>' +
         '</div>';
-      s.addEventListener('click', () => openPlace(p.id));
+      s.addEventListener('click', () => { haptic(); openCollection(c.id); });
       box.appendChild(s);
     });
+    box.classList.toggle('hidden', !box.children.length);
   }
-
+ 
   function renderFilters(){
     const box = document.getElementById('filters');
     box.innerHTML = '';
@@ -1091,7 +1491,7 @@ body.no-tg .backchip{display:inline-flex}
       box.appendChild(t);
     });
   }
-
+ 
   function cardNode(p, opts){
     opts = opts || {};
     const c = el('div','card');
@@ -1114,7 +1514,7 @@ body.no-tg .backchip{display:inline-flex}
     if (h) h.addEventListener('click', e => { e.stopPropagation(); toggle(p.id); });
     return c;
   }
-
+ 
   function renderList(){
     const box = document.getElementById('list');
     box.innerHTML = '';
@@ -1125,13 +1525,13 @@ body.no-tg .backchip{display:inline-flex}
     }
     items.forEach(p => box.appendChild(cardNode(p)));
   }
-
+ 
   function renderPicks(){
     const banner = document.getElementById('picksBanner');
     const head = document.getElementById('picksHead');
     const box = document.getElementById('picksList');
     banner.innerHTML = ''; box.innerHTML = '';
-
+ 
     if (incoming){
       /* Имя в Telegram может быть с маленькой буквы — в заголовке поднимаем */
       const who = incoming.name.charAt(0).toUpperCase() + incoming.name.slice(1);
@@ -1147,7 +1547,7 @@ body.no-tg .backchip{display:inline-flex}
       });
       return;
     }
-
+ 
     head.textContent = 'Хочу сюда';
     if (!picks.size){
       box.appendChild(el('div','empty',
@@ -1159,23 +1559,25 @@ body.no-tg .backchip{display:inline-flex}
       if (p) box.appendChild(cardNode(p));
     });
   }
-
+ 
   function plural(n,a,b,c){
     const n10=n%10, n100=n%100;
     if (n10===1 && n100!==11) return a;
     if (n10>=2 && n10<=4 && (n100<10||n100>=20)) return b;
     return c;
   }
-
+ 
   /* ---------- выбор ---------- */
   function toggle(id){
     if (picks.has(id)) picks.delete(id); else picks.add(id);
     save(); haptic('medium'); syncUI();
   }
-
+ 
   function syncUI(){
     renderList();
     if (screen === 'picks') renderPicks();
+    if (screen === 'collection') renderColList();
+    syncPins();
     const badge = document.getElementById('picksBadge');
     badge.textContent = picks.size;
     badge.classList.toggle('hidden', picks.size === 0 || !!incoming);
@@ -1187,19 +1589,102 @@ body.no-tg .backchip{display:inline-flex}
       placeBtn.classList.toggle('btn--on', on);
     }
   }
-
+ 
+  /* ---------- подборка с картой ----------
+     Leaflet грузим только при первом открытии подборки, чтобы не
+     замедлять старт главной. Плитки — OpenStreetMap. */
+  let colId = null;
+  let map = null, markers = {};
+  let leafletP = null;
+  function loadLeaflet(){
+    if (window.L) return Promise.resolve();
+    if (leafletP) return leafletP;
+    leafletP = new Promise((res, rej) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+      document.head.appendChild(css);
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+      s.onload = () => res();
+      s.onerror = () => { leafletP = null; rej(); };
+      document.head.appendChild(s);
+    });
+    return leafletP;
+  }
+ 
+  const pinIcon = id => L.divIcon({
+    className: '', iconSize: [28,28], iconAnchor: [14,14], popupAnchor: [0,-14],
+    html: '<div class="pin' + (picks.has(id) ? ' pin--on' : '') + '">' + HEART + '</div>'
+  });
+ 
+  function renderColList(){
+    const box = document.getElementById('colList');
+    box.innerHTML = '';
+    inCol(colId).forEach(p => box.appendChild(cardNode(p)));
+  }
+ 
+  function syncPins(){
+    if (!map) return;
+    Object.keys(markers).forEach(id => markers[id].setIcon(pinIcon(id)));
+  }
+ 
+  function drawMap(){
+    const box = document.getElementById('colMap');
+    const items = inCol(colId).filter(p => typeof p.lat === 'number' && typeof p.lng === 'number');
+    if (!map){
+      box.innerHTML = '';
+      map = L.map(box, { zoomControl: false, attributionControl: true });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18, attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+      map.attributionControl.setPrefix('Leaflet');
+    }
+    Object.values(markers).forEach(m => m.remove());
+    markers = {};
+    items.forEach(p => {
+      const m = L.marker([p.lat, p.lng], { icon: pinIcon(p.id) }).addTo(map);
+      const pop = document.createElement('div');
+      pop.innerHTML =
+        '<div class="pop__t">' + p.title + '</div>' +
+        '<div class="pop__m">' + p.area + ' · ' + p.price + '</div>' +
+        '<button class="pop__b">Подробнее</button>';
+      pop.querySelector('.pop__b').addEventListener('click', () => openPlace(p.id));
+      m.bindPopup(pop, { closeButton: false });
+      markers[p.id] = m;
+    });
+    /* контейнер только что был display:none — размеры надо пересчитать */
+    map.invalidateSize();
+    if (items.length) map.fitBounds(items.map(p => [p.lat, p.lng]), { padding: [30,30] });
+  }
+ 
+  function openCollection(id){
+    const c = COLLECTIONS.find(x => x.id === id);
+    if (!c) return;
+    colId = id;
+    document.getElementById('colTitle').textContent = c.title;
+    document.getElementById('colSub').textContent = c.sub;
+    renderColList();
+    go('collection');
+    loadLeaflet().then(drawMap).catch(() => {
+      document.getElementById('colMap').innerHTML =
+        '<div class="colmap__msg">Карта не загрузилась. Список мест — ниже.</div>';
+    });
+  }
+  document.getElementById('colBack').addEventListener('click', goBack);
+ 
   /* ---------- экран места ----------
      Раньше это была шторка поверх документа: жест скролла уходил
      на страницу под ней, и листалась она, а не карточка. Теперь это
      обычный экран — скроллится сам документ, проблема уходит вместе
      с конструкцией. */
   let openId = null;
-
+ 
   function openPlace(id){
     const p = PLACES.find(x => x.id === id);
     if (!p) return;
     openId = id;
-
+ 
     document.getElementById('placeMedia').style.background = bg(p);
     document.getElementById('placeBody').innerHTML =
       '<div class="place__kind">' + catLabel(p.category) + '</div>' +
@@ -1213,11 +1698,11 @@ body.no-tg .backchip{display:inline-flex}
       '</div>' +
       '<p class="place__desc">' + p.description + '</p>' +
       '<div class="tagrow">' + p.tags.map(t => '<span>' + t + '</span>').join('') + '</div>';
-
+ 
     go('place');
     syncUI();
   }
-
+ 
   document.getElementById('placePick').addEventListener('click', () => {
     if (openId) toggle(openId);
   });
@@ -1228,7 +1713,7 @@ body.no-tg .backchip{display:inline-flex}
     if (tg && tg.openLink) tg.openLink(url); else window.open(url,'_blank');
   });
   document.getElementById('placeBack').addEventListener('click', goBack);
-
+ 
   /* ---------- отправка партнёру ---------- */
   /* Telegram ограничивает start_param 512 символами — режем список, если не влезает */
   const START_PARAM_MAX = 500;
@@ -1255,7 +1740,7 @@ body.no-tg .backchip{display:inline-flex}
     if (tg && tg.openTelegramLink) tg.openTelegramLink(url);
     else window.open(url,'_blank');
   }
-
+ 
   function syncMainButton(){
     const show = screen === 'picks' && !incoming && picks.size > 0;
     /* Системная кнопка не должна появляться ни при каких условиях */
@@ -1265,49 +1750,55 @@ body.no-tg .backchip{display:inline-flex}
       fallbackBar.style.display = show ? 'flex' : 'none';
     }
   }
-
+ 
   /* ---------- навигация ---------- */
   const tabHome = document.getElementById('tabHome');
   const tabPicks = document.getElementById('tabPicks');
   const tabbar = document.querySelector('.tabbar');
   let backTo = 'home';        // куда вернуться с экрана места
   const scrollMemo = {};      // позиция списка, чтобы не терять место
-
+ 
   function go(next){
     if (next === 'place' && screen !== 'place') {
       backTo = screen;
       scrollMemo[screen] = window.scrollY;
     }
+    if (next === 'collection' && screen === 'home') scrollMemo.home = window.scrollY;
+    /* в подборку заходим заново — начинаем с карты */
+    if (next === 'collection' && screen !== 'place') scrollMemo.collection = 0;
     screen = next;
     document.body.dataset.screen = next;
     document.getElementById('screen-home').classList.toggle('hidden', next !== 'home');
     document.getElementById('screen-picks').classList.toggle('hidden', next !== 'picks');
     document.getElementById('screen-place').classList.toggle('hidden', next !== 'place');
-    tabbar.classList.toggle('hidden', next === 'place');
+    document.getElementById('screen-collection').classList.toggle('hidden', next !== 'collection');
+    tabbar.classList.toggle('hidden', next === 'place' || next === 'collection');
     tabHome.setAttribute('aria-selected', next === 'home');
     tabPicks.setAttribute('aria-selected', next === 'picks');
     if (next === 'picks') renderPicks();
-
+    if (next === 'collection') { renderColList(); if (map) setTimeout(() => map.invalidateSize(), 0); }
+ 
     /* Кнопка «назад»: своя в браузере, системная в Telegram */
     if (tg && tg.BackButton) {
-      if (next === 'place') tg.BackButton.show(); else tg.BackButton.hide();
+      if (next === 'place' || next === 'collection') tg.BackButton.show(); else tg.BackButton.hide();
     }
-
+ 
     window.scrollTo(0, next === 'place' ? 0 : (scrollMemo[next] || 0));
     syncMainButton();
   }
-
+ 
   function goBack(){
+    if (screen === 'collection'){ haptic(); go('home'); return; }
     if (screen !== 'place') return;
     haptic();
     openId = null;
     go(backTo);
   }
   if (tg && tg.BackButton) tg.onEvent('backButtonClicked', goBack);
-
+ 
   tabHome.addEventListener('click', () => { haptic(); openId = null; go('home'); });
   tabPicks.addEventListener('click', () => { haptic(); openId = null; go('picks'); });
-
+ 
   /* fallback-кнопка отправки, если MainButton недоступна (обычный браузер) */
   /* Кнопка отправки — своя на всех платформах. Системную MainButton не
      используем: она рисуется клиентом за пределами webview, берёт цвет
@@ -1327,7 +1818,7 @@ body.no-tg .backchip{display:inline-flex}
     fallbackBar.appendChild(fallbackBtn);
     document.body.appendChild(fallbackBar);
   }
-
+ 
   /* ---------- старт ---------- */
   document.getElementById('ver').textContent =
     'версия ' + CONFIG.VERSION + ' · ' + PLACES.length + ' ' +
@@ -1341,3 +1832,4 @@ body.no-tg .backchip{display:inline-flex}
 </script>
 </body>
 </html>
+ 
