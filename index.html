@@ -18,7 +18,7 @@
     // Увеличивай на единицу при каждой правке. Номер виден в самом низу
     // главной — так сразу понятно, доехало обновление или Telegram
     // показывает старую версию из кеша.
-    VERSION: "2.0"
+    VERSION: "2.1"
   };
 </script>
  
@@ -62,7 +62,8 @@
       "title": "Спа и бани",
       "sub": "Где согреться и расслабиться вдвоём",
       "area": "Москва и область",
-      "photo": ""
+      "cover": "img/cover-spa.png",
+      "coverBg": "linear-gradient(145deg,#ffe9a8,#ffc9a3 55%,#f6a6c1)"
     }
   ],
   "places": [
@@ -678,7 +679,8 @@
       "lat": 55.7618,
       "lng": 37.5552,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-tengri.jpg"
     },
     {
       "id": "spa-malevich",
@@ -698,7 +700,8 @@
       "lat": 55.73864,
       "lng": 37.29977,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-malevich.jpg"
     },
     {
       "id": "spa-wave",
@@ -718,7 +721,8 @@
       "lat": 55.7444,
       "lng": 37.65442,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-wave.jpg"
     },
     {
       "id": "spa-green-lake",
@@ -738,7 +742,8 @@
       "lat": 56.22952,
       "lng": 37.5058,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-green-lake.jpg"
     },
     {
       "id": "spa-mandara",
@@ -758,7 +763,8 @@
       "lat": 55.75059,
       "lng": 37.5838,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-mandara.jpg"
     },
     {
       "id": "spa-palmira",
@@ -778,7 +784,8 @@
       "lat": 55.77591,
       "lng": 37.51659,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-palmira.jpg"
     },
     {
       "id": "spa-h2o",
@@ -798,7 +805,8 @@
       "lat": 55.7175,
       "lng": 37.5545,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-h2o.jpg"
     },
     {
       "id": "spa-sky-zavidnoe",
@@ -818,7 +826,8 @@
       "lat": 55.56085,
       "lng": 37.63967,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-sky-zavidnoe.jpg"
     },
     {
       "id": "spa-element",
@@ -838,7 +847,8 @@
       "lat": 55.73586,
       "lng": 37.43905,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-element.jpg"
     },
     {
       "id": "spa-paroma",
@@ -858,7 +868,8 @@
       "lat": 55.75658,
       "lng": 37.56,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-paroma.jpg"
     },
     {
       "id": "spa-alatyr",
@@ -878,7 +889,8 @@
       "lat": 55.985,
       "lng": 37.62,
       "category": "relax",
-      "collection": "spa"
+      "collection": "spa",
+      "photo": "img/spa-alatyr.jpg"
     }
   ]
 }
@@ -1208,7 +1220,16 @@ body[data-screen="collection"] .rule{display:none}
 .pop__t{font-weight:600;font-size:15px;margin-bottom:2px;color:#000}
 .pop__m{font-size:13px;color:#555;margin-bottom:8px}
 .pop__b{background:#1c1c1e;color:#fff;border-radius:10px;padding:7px 12px;font-size:14px;font-weight:600}
-.slide--col .slide__media{height:180px}
+.slide--col:only-child{flex-basis:100%}
+.slide--col .slide__media{height:214px}
+/* Обложка-иллюстрация: светлая подложка, картинка справа целиком,
+   без затемнения — значки и кнопка тёмные, иначе не читаются */
+.slide--art .slide__media::after{display:none}
+.slide__art{position:absolute;right:8px;bottom:0;height:94%;width:auto;pointer-events:none}
+.slide--art .slide__badge,.slide--art .slide__cta{background:rgba(0,0,0,.14);color:#1c1c1e}
+.slide--art .slide__meta{color:rgba(28,28,30,.7)}
+/* Подпись и кнопка — столбиком слева, чтобы не залезать на картинку */
+.slide--art .slide__foot{flex-direction:column;align-items:flex-start;gap:10px;max-width:56%}
 .rub{letter-spacing:.14em}
 .hidden{display:none !important}
 </style>
@@ -1455,15 +1476,14 @@ body[data-screen="collection"] .rule{display:none}
     COLLECTIONS.forEach(c => {
       const n = inCol(c.id).length;
       if (!n) return;
-      const s = el('button','slide slide--col');
-      const cover = c.photo
-        ? "url('" + c.photo + "') center/cover no-repeat, " + GRAD.relax
-        : GRAD.relax;
+      const s = el('button','slide slide--col' + (c.cover ? ' slide--art' : ''));
+      const cover = c.coverBg || GRAD.relax;
       s.innerHTML =
         '<div class="slide__eyebrow">Подборка</div>' +
         '<h3 class="slide__title">' + c.title + '</h3>' +
         '<div class="slide__sub">' + c.sub + '</div>' +
         '<div class="slide__media" style="background:' + cover + '">' +
+          (c.cover ? '<img class="slide__art" src="' + c.cover + '" alt="">' : '') +
           '<span class="slide__badge">' + c.area + '</span>' +
           '<div class="slide__foot">' +
             '<span class="slide__meta">' + n + ' ' + plural(n,'место','места','мест') + ' · на карте</span>' +
